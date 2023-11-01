@@ -36,6 +36,7 @@ HTTPie.io/app is a web-based service that allows you to make HTTP requests direc
    - To request data in a specific language, click on the "Headers" tab.
    - Add a new header with `Name` set to `Accept-Language` and `Value` set to the desired language code, currently only `fr` is supported in addition to `en`.
    - Click "Send" to make the request.
+   - Note, if look at the web page, only the column headings will be translated.
 
 4. **Fetching Data in Different Formats**:
    - To fetch data in different formats, add an `Accept` header with the desired content type.
