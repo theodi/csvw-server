@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions</title>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+  <style>
+    body {
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .metadata, .data {
+      margin-bottom: 20px;
+    }
+    .code-box {
+      max-width: 95%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    table.csv-table {
+      border-collapse: collapse;
+      width: 95%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    table.csv-table th, table.csv-table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    table.csv-table th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>ODI CSVW data browser</h1>
+  <p>This page shows the data you have requested as parsed from CSVW using a combination of CSV file and associated metadata.</p>
+  <p>You can see the original CSV file and CSVW metadata below, alongwith the JSON-LD that is compiled from this.</p>
+  <p>The JSON-LD data is what is used to provide this service.</p>
+  <h1>About this example</h1>
+  <%- readFileContent(sourcedir + '/README.html') %>
+  <hr/>
+  <div class="metadata">
+    <h2>Metadata</h2>
+    <p>This section lists the metadata related to the data.</p>
+    <ul>
+      <% for (const [key, value] of Object.entries(metadata)) { %>
+        <% if (!(typeof value === 'object' && value['@id'] && value['rdfs:label'] && Object.keys(value).length === 2)) { %>
+          <li><strong><%= key %>:</strong> <%- objectToString(value) %></li>
+        <% } %>
+      <% } %>
+    </ul>
+  </div>
+
+
+  <% if (Array.isArray(transactions)) { %>
+    <!-- Rendering a list of transactions -->
+    <div class="data">
+      <h2>Data</h2>
+      <table id="transactionsTable" class="display">
+        <thead>
+          <tr>
+            <% for (const [label, data] of Object.entries(transactions[0])) { %>
+              <th>
+              <% if (data.link) { %>
+                <a href="<%= data.link %>" target="_blank"><%= label %></a>
+              <% } else { %>
+                <%= label %><br>
+              <% } %>
+              </th>
+            <% } %>
+          </tr>
+        </thead>
+        <tbody>
+          <% transactions.forEach(transaction => { %>
+            <tr>
+              <% for (const data of Object.values(transaction)) { %>
+                <td>
+                  <% if (typeof data.value === 'string' && data.value.startsWith('http')) { %>
+                    <a href="<%= data.value %>" target="_blank"><%= data.value %></a>
+                  <% } else { %>
+                    <%= data.value %>
+                  <% } %>
+                </td>
+              <% } %>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <!-- Rendering a single transaction -->
+    <div class="data">
+      <h2>Data</h2>
+      <ul>
+        <% for (const [key, value] of Object.entries(transactions)) { %>
+          <li><strong><%= key %>:</strong>
+            <% if (typeof value === 'string' && value.startsWith('http')) { %>
+              <a href="<%= value %>" target="_blank"><%= value %></a>
+            <% } else { %>
+              <%= value %>
+            <% } %>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  <% } %>
+  <hr/>
+  <h2>Original CSV</h2>
+  <p><a href="/<%= sourcedir %>/transactions.csv" download>Download CSV</a></p>
+  <div><%- renderCsvToTable(sourcedir + '/transactions.csv') %></div>
+
+  <h2>CSVW Metadata</h2>
+  <p><a href="/<%= sourcedir %>/csvw.json" download>Download CSVW Metadata</a></p>
+  <div class="code-box">
+    <pre><code class="language-json"><%- readFileContent(sourcedir + '/csvw.json') %></code></pre>
+  </div>
+
+  <h2>Compiled JSON-LD Data</h2>
+  <p><a href="/<%= sourcedir %>/data.jsonld" download>Download compiled JSON-LD</a></p>
+  <div class="code-box">
+    <pre><code class="language-json"><%- readFileContent(sourcedir + '/data.jsonld') %></code></pre>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-json.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#transactionsTable').DataTable();
+      Prism.highlightAll();
+    });
+  </script>
+</body>
+</html>

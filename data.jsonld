@@ -1,0 +1,162 @@
+{
+  "@context": {
+    "@base": "http://jpmc.learndata.info/",
+    "schema": "http://schema.org/",
+    "dc": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "schema:identifier": 1,
+      "schema:date": {
+        "@value": "2023-01-15",
+        "@type": "xsd:date"
+      },
+      "http://reference.data.gov.uk/def/payment#payer": {
+        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      },
+      "http://reference.data.gov.uk/def/payment#payee": {
+        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      },
+      "schema:description": "Payment for services",
+      "schema:price": 5000,
+      "@id": "http://jpmc.learndata.info/transactions/1",
+      "rdf:type": {
+        "@id": "http://reference.data.gov.uk/def/payment#Payment"
+      }
+    },
+    {
+      "schema:identifier": 2,
+      "schema:date": {
+        "@value": "2023-01-20",
+        "@type": "xsd:date"
+      },
+      "http://reference.data.gov.uk/def/payment#payer": {
+        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      },
+      "http://reference.data.gov.uk/def/payment#payee": {
+        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      },
+      "schema:description": "Refund for overpayment",
+      "schema:price": 250,
+      "@id": "http://jpmc.learndata.info/transactions/2",
+      "rdf:type": {
+        "@id": "http://reference.data.gov.uk/def/payment#Payment"
+      }
+    },
+    {
+      "schema:identifier": 3,
+      "schema:date": {
+        "@value": "2023-02-01",
+        "@type": "xsd:date"
+      },
+      "http://reference.data.gov.uk/def/payment#payer": {
+        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      },
+      "http://reference.data.gov.uk/def/payment#payee": {
+        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      },
+      "schema:description": "Monthly subscription fee",
+      "schema:price": 1000,
+      "@id": "http://jpmc.learndata.info/transactions/3",
+      "rdf:type": {
+        "@id": "http://reference.data.gov.uk/def/payment#Payment"
+      }
+    }
+  ],
+  "dc:title": "Financial Transactions",
+  "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
+  "dc:publisher": {
+    "schema:name": "FinCorp Ltd.",
+    "schema:url": {
+      "@id": "http://fincorpltd.example.com"
+    }
+  },
+  "dcat:keyword": [
+    "transactions",
+    "financial"
+  ],
+  "dc:license": {
+    "@id": "http://opendefinition.org/licenses/cc-by/"
+  },
+  "dc:modified": {
+    "@value": "2023-10-25",
+    "@type": "xsd:date"
+  },
+  "schema:identifier": {
+    "@id": "schema:identifier",
+    "rdfs:label": [
+      {
+        "@value": "ID de Transaction",
+        "@language": "fr"
+      },
+      {
+        "@value": "Transaction ID",
+        "@language": "en"
+      }
+    ]
+  },
+  "schema:date": {
+    "@id": "schema:date",
+    "rdfs:label": [
+      {
+        "@value": "Date",
+        "@language": "fr"
+      },
+      {
+        "@value": "Date",
+        "@language": "en"
+      }
+    ]
+  },
+  "http://reference.data.gov.uk/def/payment#payer": {
+    "@id": "http://reference.data.gov.uk/def/payment#payer",
+    "rdfs:label": [
+      {
+        "@value": "Payeur",
+        "@language": "fr"
+      },
+      {
+        "@value": "Payer",
+        "@language": "en"
+      }
+    ]
+  },
+  "http://reference.data.gov.uk/def/payment#payee": {
+    "@id": "http://reference.data.gov.uk/def/payment#payee",
+    "rdfs:label": [
+      {
+        "@value": "Bénéficiaire",
+        "@language": "fr"
+      },
+      {
+        "@value": "Payee",
+        "@language": "en"
+      }
+    ]
+  },
+  "schema:description": {
+    "@id": "schema:description",
+    "rdfs:label": [
+      {
+        "@value": "Description",
+        "@language": "en"
+      }
+    ]
+  },
+  "schema:price": {
+    "@id": "schema:price",
+    "rdfs:label": [
+      {
+        "@value": "Montant (USD)",
+        "@language": "fr"
+      },
+      {
+        "@value": "Amount (USD)",
+        "@language": "en"
+      }
+    ]
+  }
+}
