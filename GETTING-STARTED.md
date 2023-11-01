@@ -2,7 +2,7 @@
 
 #### Browsing Transactions
 
-1. **Access the Transaction List**: Open your web browser and go to [https://jmpc.learndata.info/transactions/](https://jmpc.learndata.info/transactions/). Here, you will see a list of all available transactions.
+1. **Access the Transaction List**: Open your web browser and go to [https://jpmc.learndata.info/transactions/](https://jpmc.learndata.info/transactions/). Here, you will see a list of all available transactions.
 
 2. **Understanding the Transaction List**:
    - Each row represents a different transaction.
@@ -10,7 +10,7 @@
 
 3. **Viewing a Specific Transaction**:
    - To view a specific transaction, click on its corresponding link in the list under the @id column
-   - This will take you to a new page (e.g., [https://jmpc.learndata.info/transactions/1](https://jmpc.learndata.info/transactions/1)) where you can see all the details of the selected transaction.
+   - This will take you to a new page (e.g., [https://jpmc.learndata.info/transactions/1](https://jpmc.learndata.info/transactions/1)) where you can see all the details of the selected transaction.
 
 #### Understanding the Transaction Detail Page
 
@@ -29,7 +29,7 @@ HTTPie.io/app is a web-based service that allows you to make HTTP requests direc
 1. **Access HTTPie.io/app**: Open your web browser and go to [https://httpie.io/app](https://httpie.io/app).
 
 2. **Making a GET Request**:
-   - In the URL field, enter the URL of the transaction you want to view, e.g., `https://jmpc.learndata.info/transactions/1` (single transaction) or `https://jmpc.learndata.info/transactions/` (all transactions).
+   - In the URL field, enter the URL of the transaction you want to view, e.g., `https://jpmc.learndata.info/transactions/1` (single transaction) or `https://jpmc.learndata.info/transactions/` (all transactions).
    - Click on the "Send" button to make the request.
 
 3. **Specifying Accept-Language**:
