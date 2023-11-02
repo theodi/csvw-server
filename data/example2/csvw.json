@@ -1,14 +1,8 @@
 {
-    "@context": {
-      "@base": "http://jpmc.learndata.info/",
-      "@language": "en",
-      "csvw": "http://www.w3.org/ns/csvw",
-      "schema": "http://schema.org/",
-      "dc": "http://purl.org/dc/terms/",
-      "dcat": "http://www.w3.org/ns/dcat#",
-      "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
-    },
+    "@context": [
+      "http://www.w3.org/ns/csvw",
+      {"@language": "en"}
+    ],
     "url": "transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
