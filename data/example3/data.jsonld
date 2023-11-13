@@ -20,11 +20,13 @@
       "http://reference.data.gov.uk/def/payment#payer": "CompanyA",
       "http://reference.data.gov.uk/def/payment#payee": "CompanyB",
       "schema:description": "Payment for services",
-      "schema:price": {
-        "@value": 5000,
-        "@type": "xsd:decimal"
-      },
-      "@id": "http://jpmc.learndata.info/transactions/1"
+      "@id": "http://jpmc.learndata.info/transactions/1",
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/1#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "5000",
+        "schema:currency": "USD"
+      }
     },
     {
       "schema:identifier": {
@@ -38,11 +40,13 @@
       "http://reference.data.gov.uk/def/payment#payer": "CompanyB",
       "http://reference.data.gov.uk/def/payment#payee": "CompanyA",
       "schema:description": "Refund for overpayment",
-      "schema:price": {
-        "@value": 250,
-        "@type": "xsd:decimal"
-      },
-      "@id": "http://jpmc.learndata.info/transactions/2"
+      "@id": "http://jpmc.learndata.info/transactions/2",
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/2#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "250",
+        "schema:currency": "USD"
+      }
     },
     {
       "schema:identifier": {
@@ -56,11 +60,13 @@
       "http://reference.data.gov.uk/def/payment#payer": "CompanyA",
       "http://reference.data.gov.uk/def/payment#payee": "CompanyB",
       "schema:description": "Monthly subscription fee",
-      "schema:price": {
-        "@value": 1000,
-        "@type": "xsd:decimal"
-      },
-      "@id": "http://jpmc.learndata.info/transactions/3"
+      "@id": "http://jpmc.learndata.info/transactions/3",
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/3#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "1000",
+        "schema:currency": "USD"
+      }
     }
   ],
   "dc:title": "Financial Transactions",
@@ -139,19 +145,6 @@
     "rdfs:label": [
       {
         "@value": "Description",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:price": {
-    "@id": "schema:price",
-    "rdfs:label": [
-      {
-        "@value": "Montant (USD)",
-        "@language": "fr"
-      },
-      {
-        "@value": "Amount (USD)",
         "@language": "en"
       }
     ]

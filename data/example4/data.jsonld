@@ -24,14 +24,14 @@
         "@id": "http://jpmc.learndata.info/company/CompanyB"
       },
       "schema:description": "Payment for services",
-      "schema:price": {
-        "@value": 5000,
-        "@type": "xsd:decimal"
-      },
       "@id": "http://jpmc.learndata.info/transactions/1",
-      "rdf:type": {
-        "@id": "http://reference.data.gov.uk/def/payment#Payment"
-      }
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/1#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "5000",
+        "schema:currency": "USD"
+      },
+      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
     },
     {
       "schema:identifier": {
@@ -49,14 +49,14 @@
         "@id": "http://jpmc.learndata.info/company/CompanyA"
       },
       "schema:description": "Refund for overpayment",
-      "schema:price": {
-        "@value": 250,
-        "@type": "xsd:decimal"
-      },
       "@id": "http://jpmc.learndata.info/transactions/2",
-      "rdf:type": {
-        "@id": "http://reference.data.gov.uk/def/payment#Payment"
-      }
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/2#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "250",
+        "schema:currency": "USD"
+      },
+      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
     },
     {
       "schema:identifier": {
@@ -74,14 +74,14 @@
         "@id": "http://jpmc.learndata.info/company/CompanyB"
       },
       "schema:description": "Monthly subscription fee",
-      "schema:price": {
-        "@value": 1000,
-        "@type": "xsd:decimal"
-      },
       "@id": "http://jpmc.learndata.info/transactions/3",
-      "rdf:type": {
-        "@id": "http://reference.data.gov.uk/def/payment#Payment"
-      }
+      "schema:amount": {
+        "@id": "http://jpmc.learndata.info/transactions/3#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "1000",
+        "schema:currency": "USD"
+      },
+      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
     }
   ],
   "dc:title": "Financial Transactions",
@@ -160,19 +160,6 @@
     "rdfs:label": [
       {
         "@value": "Description",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:price": {
-    "@id": "schema:price",
-    "rdfs:label": [
-      {
-        "@value": "Montant (USD)",
-        "@language": "fr"
-      },
-      {
-        "@value": "Amount (USD)",
         "@language": "en"
       }
     ]

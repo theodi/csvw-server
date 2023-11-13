@@ -1,8 +1,14 @@
 {
-    "@context": [
-      "http://www.w3.org/ns/csvw",
-      {"@language": "en"}
-    ],
+    "@context": {
+      "@base": "http://jpmc.learndata.info/",
+      "@language": "en",
+      "csvw": "http://www.w3.org/ns/csvw",
+      "schema": "http://schema.org/",
+      "dc": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    },
     "url": "transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
@@ -75,8 +81,31 @@
             "en": "Amount (USD)"
           },
           "datatype": "decimal",
-          "propertyUrl": "schema:price",
-          "required": true
+          "required": true,
+          "suppressOutput": true
+        },
+        {
+          "virtual": true,
+          "propertyUrl": "schema:amount",
+          "valueUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "rdf:type",
+          "valueUrl": "schema:MonetaryAmount"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "schema:value",
+          "valueUrl": "{amount}"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "schema:currency",
+          "valueUrl": "USD"
         },
         {
           "virtual": true,

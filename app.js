@@ -106,12 +106,22 @@ function sendData(transactionData,req,res) {
         const csvData = transactionsArray.map(transaction => {
           const transactionObject = {};
           for (const [key, value] of Object.entries(transaction)) {
-            transactionObject[key] = value;
+            if (typeof value === 'object' && value !== null) {
+              transactionObject[key] = value['@value'] || value['schema:value'] || value;
+              tempObject = getLabelledData(value,language);
+              for (const tempKey in tempObject) {
+                if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != "@value" && tempKey != 'schema:value') {
+                  transactionObject[tempKey] = tempObject[tempKey];
+                }
+              }
+            } else {
+              transactionObject[key] = value;
+            }
           }
           return transactionObject;
         });
 
-        const csvHeaders = Object.keys(labeledData[0]).map(key => ({ key, label: key }));
+        const csvHeaders = Object.keys(csvData[0]).map(key => ({ key, label: key }));
 
         const output = stringify(csvData, {
           header: true,
@@ -195,6 +205,7 @@ function getLabelledDataWithURIs(transactionData, language) {
   const context = jsonData['@context'];
   const labeledData = {};
   for (const key in transactionData) {
+    let skip = false;
     let label = key;
     let value = transactionData[key];
     let uri = null;
@@ -213,7 +224,15 @@ function getLabelledDataWithURIs(transactionData, language) {
         value = transactionData[key]['@value'];
       } else if ('@id' in transactionData[key]) {
         uri = transactionData[key]['@id'];
-        if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
+        if (uri.startsWith(transactionData['@id'] + "#")) {
+          tempObject = getLabelledDataWithURIs(value,language);
+          for (const tempKey in tempObject) {
+            if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != '@value' && tempKey != 'schema:value') {
+              labeledData[tempKey] = tempObject[tempKey];
+            }
+          }
+          value = value['@value'] || value['schema:value'] || value;
+        } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
           link = expandURI(uri,context);
@@ -222,7 +241,9 @@ function getLabelledDataWithURIs(transactionData, language) {
         }
       }
     }
-    labeledData[label] = { value, link };
+    if (!skip) {
+      labeledData[label] = { value, link };
+    }
   }
   return labeledData;
 }
@@ -250,7 +271,9 @@ function getLabelledData(transactionData, language) {
         value = transactionData[key]['@value'];
       } else if ('@id' in transactionData[key]) {
         uri = transactionData[key]['@id'];
-        if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
+        if (uri.startsWith(transactionData['@id'] + "#")) {
+          value = getLabelledData(transactionData[key],language);
+        } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
           link = expandURI(uri,context);

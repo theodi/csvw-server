@@ -73,8 +73,31 @@
             "en": "Amount (USD)"
           },
           "datatype": "decimal",
-          "propertyUrl": "schema:price",
-          "required": true
+          "required": true,
+          "suppressOutput": true
+        },
+        {
+          "virtual": true,
+          "propertyUrl": "schema:amount",
+          "valueUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "rdf:type",
+          "valueUrl": "schema:MonetaryAmount"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "schema:value",
+          "valueUrl": "{amount}"
+        },
+        {
+          "virtual": true,
+          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "propertyUrl": "schema:currency",
+          "valueUrl": "USD"
         }
       ],
       "primaryKey": "transaction_id",
