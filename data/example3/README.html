@@ -1,2 +1,48 @@
-<p>In this example, in addition to the metadata using existing namespaces, we are also using them for the column titles (shown by each having a hyperlink).</p>
-<p>Note, the titles are the titles defined in the CSVw metadata file. If you have requested this page in French then they will be in French!.</p>
+<h1 id="example2">Example3 CSVW Metadata</h1>
+<h2 id="overview">Overview</h2>
+<p>This README discusses the CSVW metadata for <code>example3</code>, which represents a dataset of financial transactions. While retaining the core structure of <code>example2</code>, <code>example3</code> introduces additional complexities and refinements in its metadata configuration.</p>
+<h2 id="key-differences-from-example-2">Key Differences from Example 2</h2>
+<ol>
+<li><p><strong>Extended <code>@context</code></strong>:</p>
+<ul>
+<li><strong>Base URL</strong>: The <code>@base</code> is set to <code>&quot;http://example.com&quot;</code>, which provides a base URI for relative URLs.</li>
+<li><strong>Additional Namespace</strong>: Introduction of a new namespace <code>&quot;pay&quot;</code> mapped to <code>&quot;http://reference.data.gov.uk/def/payment#&quot;</code>. This enables the use of <code>pay</code> prefix for property URLs.</li>
+</ul>
+</li>
+<li><p><strong>Table Schema Enhancements</strong>:</p>
+<ul>
+<li><strong>Property URLs</strong>: Unlike <code>example2</code>, <code>example3</code> specifies <code>propertyUrl</code> for most columns, providing more explicit semantic context. For instance:<ul>
+<li><code>schema:identifier</code> for <code>transaction_id</code>.</li>
+<li><code>schema:date</code> for <code>date</code>.</li>
+<li>Custom URIs like <code>payer</code> and <code>payee</code> for respective columns.</li>
+</ul>
+</li>
+<li><strong>Suppress Output</strong>: The <code>amount</code> column has a new attribute <code>&quot;suppressOutput&quot;: true</code>, which indicates that this column&#39;s data should not be directly included in the output.</li>
+</ul>
+</li>
+<li><p><strong>Virtual Columns for Complex Structures</strong>:</p>
+<ul>
+<li>Introduction of multiple virtual columns to construct a <code>MonetaryAmount</code> object:<ul>
+<li>A virtual column for <code>schema:amount</code> creates a link to a detailed amount description.</li>
+<li>Further virtual columns define a <code>MonetaryAmount</code> structure with <code>rdf:type</code>, <code>schema:value</code>, and <code>schema:currency</code> properties.</li>
+</ul>
+</li>
+<li>These virtual columns leverage the <code>aboutUrl</code> and <code>valueUrl</code> attributes to create more complex data structures than in <code>example2</code>.</li>
+</ul>
+</li>
+<li><p><strong>Refined Semantic Descriptions</strong>:</p>
+<ul>
+<li>The use of <code>propertyUrl</code> and virtual columns allows for a richer semantic representation of the data, adhering more closely to standards like Schema.org and RDF.</li>
+</ul>
+</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>The metadata in <code>example3</code> is designed to provide a more semantically rich and detailed description of the CSV data. It is particularly useful for scenarios requiring advanced data integration or RDF conversion.</li>
+<li>The metadata in <code>example3</code> not only provides a detailed semantic description of the CSV data but also marks the first instance in our examples that will generate a JSON-LD file fully compatible with JSON-LD tools, such as the <a href="https://json-ld.org/playground/">JSON-LD Playground</a>. This compatibility ensures that users can validate, visualize, and interact with the transformed JSON-LD data using standard JSON-LD processors and tools.</li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>The complexity of the virtual column setup in <code>example3</code> might require more sophisticated processing logic compared to simpler CSVW metadata.</li>
+<li>Users should ensure their processing tools can handle the advanced features used in this metadata.</li>
+</ul>

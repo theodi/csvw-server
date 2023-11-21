@@ -1,2 +1,42 @@
-<p>In this final example, we have added URIs for the things defined in the data. These are shown in the data with links.</p>
-<p>Another new column defined for type is also shown.</p>
+<h1 id="example2">Example4 CSVW Metadata</h1>
+<h2 id="overview">Overview</h2>
+<p>This README outlines the CSVW metadata for <code>example4</code>, a dataset representing financial transactions. While retaining the core structure of <code>example3</code>, <code>example4</code> introduces key refinements and additions in its metadata configuration, enhancing semantic richness and alignment with specific vocabularies.</p>
+<h2 id="key-differences-from-example-3">Key Differences from Example 3</h2>
+<ol>
+<li><p><strong>Table Schema Refinements</strong>:</p>
+<ul>
+<li><strong>Property URLs</strong>:<ul>
+<li><code>example4</code> uses the <code>pay</code> namespace for <code>payer</code> and <code>payee</code> columns, resulting in <code>propertyUrl</code> values of <code>pay:payer</code> and <code>pay:payee</code>, aligning these columns with a specific payment vocabulary.</li>
+<li>The <code>valueUrl</code> for <code>payer</code> and <code>payee</code> is updated to <code>company/{payer}</code> and <code>company/{payee}</code>, implying a more concise and meaningful reference.</li>
+</ul>
+</li>
+<li><strong>Virtual Column for Payment Type</strong>:<ul>
+<li>A new virtual column is introduced: <code>&quot;propertyUrl&quot;: &quot;rdf:type&quot;, &quot;valueUrl&quot;: &quot;pay:Payment&quot;</code>, which categorizes each transaction explicitly as a <code>Payment</code> type within the <code>pay</code> namespace.</li>
+</ul>
+</li>
+<li><strong>Suppress Output for Amount</strong>:<ul>
+<li>Similar to <code>example3</code>, <code>amount</code> is marked with <code>&quot;suppressOutput&quot;: true</code>, indicating that this column&#39;s data should not be directly included in the output.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Semantic Enhancements</strong>:</p>
+<ul>
+<li>The use of the <code>pay</code> namespace for relevant columns and virtual columns enables a closer alignment with standardized payment vocabularies and terms, providing clearer semantics for the data.</li>
+</ul>
+</li>
+<li><p><strong>Virtual Columns Configuration</strong>:</p>
+<ul>
+<li><code>example4</code> maintains the complex virtual column structure seen in <code>example3</code> for defining <code>MonetaryAmount</code>, enhancing the dataset&#39;s semantic representation with specific types and values.</li>
+</ul>
+</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ul>
+<li><code>example4</code>&#39;s metadata is particularly suitable for scenarios requiring high semantic fidelity and alignment with specific vocabularies, such as data integration, RDF conversion, or sophisticated data processing pipelines.</li>
+<li>The dataset is fully compatible with JSON-LD tools, allowing for effective validation, visualization, and interaction.</li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>The added complexity in <code>example4</code>, particularly with custom namespaces and virtual columns, might necessitate advanced processing tools and an understanding of the specific vocabularies used.</li>
+</ul>

@@ -1,3 +1,94 @@
-<p>This example shows data which has been converted from simple CSV into a more complex data format.</p>
-<p>This more complex format, JSON-LD, contains not just the values for the data, but the data types against which they can be verified.</p>
-<p>The only other thing that has been added is a web based identifier for each row, which you can click on to view each individual transaction.</p>
+<h1 id="example1">Example1 CSVW Metadata</h1>
+<p>This README file describes the features of the CSVW metadata for the <code>example1</code> dataset, which comprises a list of financial transactions. The metadata is structured according to the CSV on the Web (CSVW) standard, facilitating the understanding and processing of the <code>transactions.csv</code> file.</p>
+<h2 id="csvw-metadata-features">CSVW Metadata Features</h2>
+<ol>
+<li><p><strong>Context Specification</strong>:</p>
+<ul>
+<li>The <code>@context</code> is set to the CSVW namespace with English as the default language.</li>
+<li>This establishes the semantic context for interpreting the CSV data.</li>
+</ul>
+</li>
+<li><p><strong>Data Source</strong>:</p>
+<ul>
+<li><code>url</code>: Points to the <code>transactions.csv</code> file, indicating the source of data.</li>
+</ul>
+</li>
+<li><p><strong>Table Schema</strong>:</p>
+<ul>
+<li>Defines the structure and constraints of the data in the CSV file.</li>
+<li>Ensures consistency and facilitates data validation.</li>
+</ul>
+</li>
+<li><p><strong>Columns</strong>:</p>
+<ul>
+<li><p><strong>Transaction ID</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;transaction_id&quot;</li>
+<li><code>titles</code>: Multilingual titles provided, including English (&quot;Transaction ID&quot;) and French (&quot;ID de Transaction&quot;).</li>
+<li><code>datatype</code>: Integer, indicating a numeric identifier.</li>
+<li><code>required</code>: True, implying this column must have a value in each row.</li>
+</ul>
+</li>
+<li><p><strong>Date</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;date&quot;</li>
+<li><code>titles</code>: Provided in both English and French.</li>
+<li><code>datatype</code>: Date type with a specified range from January 1, 2023, to December 31, 2023.</li>
+<li><code>required</code>: True.</li>
+</ul>
+</li>
+<li><p><strong>Payer</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;payer&quot;</li>
+<li><code>titles</code>: Provided in both English (&quot;Payer&quot;) and French (&quot;Payeur&quot;).</li>
+<li><code>datatype</code>: String.</li>
+<li><code>required</code>: True.</li>
+</ul>
+</li>
+<li><p><strong>Payee</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;payee&quot;</li>
+<li><code>titles</code>: Provided in both English (&quot;Payee&quot;) and French (&quot;Bénéficiaire&quot;).</li>
+<li><code>datatype</code>: String.</li>
+<li><code>required</code>: True.</li>
+</ul>
+</li>
+<li><p><strong>Description</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;description&quot;</li>
+<li><code>titles</code>: &quot;Description&quot; (assumed to be the same in both English and French).</li>
+<li><code>datatype</code>: String.</li>
+<li><code>required</code>: True.</li>
+</ul>
+</li>
+<li><p><strong>Amount (USD)</strong>:</p>
+<ul>
+<li><code>name</code>: &quot;amount&quot;</li>
+<li><code>titles</code>: Provided in both English and French, indicating the amount in USD.</li>
+<li><code>datatype</code>: Decimal, suitable for monetary values.</li>
+<li><code>required</code>: True.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Primary Key</strong>:</p>
+<ul>
+<li><code>primaryKey</code>: Set to &quot;transaction_id&quot;, ensuring each transaction can be uniquely identified.</li>
+</ul>
+</li>
+<li><p><strong>About URL</strong>:</p>
+<ul>
+<li><code>aboutUrl</code>: Provides a templated URL for each transaction, allowing the creation of unique identifiers for each row based on the <code>transaction_id</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>This metadata file is used to parse, validate, and understand the <code>transactions.csv</code> file.</li>
+<li>It can be utilized by CSVW processing tools to generate RDF data or to facilitate data integration and mapping.</li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>The metadata is tailored specifically for the <code>transactions.csv</code> file structure and may need adjustments for other datasets.</li>
+<li>Users should ensure compatibility with their CSVW processing tools.</li>
+</ul>

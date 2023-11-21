@@ -10,15 +10,17 @@
   <link rel="stylesheet" type="text/css" href="/style/style.css">
 </head>
 <body>
+  <div class="banner"><%- readFileContent(sourcedir + '/name.html') %></div>
   <div class="sidebar">
     <img class="odi-logo" src="/img/odi-logo.png">
     <ul>
       <li class="arrow-icon"><a href="#data" class="toggle-link">Home</a></li>
+      <li class="arrow-icon"><a href="#start" class="toggle-link">Getting started</a></li>
       <li class="arrow-icon"><a href="#about" class="toggle-link">About this tool</a></li>
       <li class="arrow-icon"><a href="#examples" class="toggle-link">About this data</a></li>
       <li class="arrow-icon"><a href="#originalCSV" class="toggle-link">View CSV</a></li>
       <li class="arrow-icon"><a href="#csvwMetadata" class="toggle-link">View CSVW</a></li>
-      <li class="arrow-icon"><a href="#jsonLD" class="toggle-link">View Compiled JSON-LD</a></li>
+      <li class="arrow-icon"><a href="#jsonLD" class="toggle-link">View JSON-LD</a></li>
     </ul>
   </div>
   <div class="main-content">
@@ -88,50 +90,13 @@
         </div>
       <% } %>
     </section>
+    <section id="start" class="hidden">
+      <%- readFileContent('docs/GETTING-STARTED.html') %>
+    </section>
     <section id="about" class="hidden">
-      <h1>About this tool</h1>
-      <p>The ODI CSVW Data Browser is a sophisticated tool that showcases the versatility and richness of data when combined with CSV on the Web (CSVW) metadata. This platform not only displays the original CSV file and its associated CSVW metadata but also the transformed JSON-LD output, all derived using the Open Data Institute&#39;s <a href="https://github.com/theodi/csvw-to-jsonld" target="_blank">csvw-to-jsonld converter</a>.</p>
-      <h4 id="understanding-csvw-and-its-benefits">Understanding CSVW and Its Benefits</h4>
-      <p>CSVW, or CSV on the Web, is a W3C standard that enriches CSV files with additional metadata. This metadata provides context, enabling a more nuanced understanding and interpretation of the data. CSVW facilitates greater clarity and interoperability for CSV files across different applications, making them more self-descriptive and versatile.</p>
-      <h4 id="the-conversion-process">The Conversion Process</h4>
-      <p>The ODI&#39;s <a href="https://github.com/theodi/csvw-to-jsonld" target="_blank">csvw-to-jsonld</a> converter processes CSV files alongside their CSVW metadata to produce JSON-LD (JavaScript Object Notation for Linked Data). JSON-LD is a powerful format for encoding Linked Data using JSON, offering a machine-readable and semantically rich way of presenting data.</p>
-      <h4 id="content-negotiation-and-format-options">Content Negotiation and Format Options</h4>
-      <p>This service offers content negotiation, allowing you to access the data in various formats: CSV, JSON, and JSON-LD. Each format has its own set of advantages and limitations:</p>
-      <ul>
-      <li><p><strong>CSV Format</strong>: </p>
-      <ul>
-      <li><strong>Benefits</strong>: Universally understood and widely used, especially in data analysis and spreadsheet applications. Ideal for tabular data representation.</li>
-      <li><strong>Limitations</strong>: Lacks the context to describe the meaning of data, can be ambiguous without accompanying documentation.</li>
-      </ul>
-      </li>
-      <li><p><strong>JSON Format</strong>:</p>
-      <ul>
-      <li><strong>Benefits</strong>: Easily parsed by web applications, more structured and hierarchical compared to CSV. It&#39;s well-suited for web APIs and applications.</li>
-      <li><strong>Limitations</strong>: Does not inherently support linking data or providing semantic context as JSON-LD does.</li>
-      </ul>
-      </li>
-      <li><p><strong>JSON-LD Format</strong>:</p>
-      <ul>
-      <li><strong>Benefits</strong>: Enhances JSON with the ability to represent linked data and semantic context. Ideal for data integration and interoperability in web environments.</li>
-      <li><strong>Limitations</strong>: May require more specialized knowledge to understand and use effectively compared to plain JSON or CSV.</li>
-      </ul>
-      </li>
-      </ul>
-      <h4 id="exploring-and-validating-the-data">Exploring and Validating the Data</h4>
-      <ul>
-      <li><strong>CSVW Validation</strong>: Validate CSVW metadata using the <a href="https://csvw.opendata.cz/validation">CSVW Validation Tool</a> for compliance with the standard.</li>
-      <li><strong>JSON-LD Playground</strong>: Explore JSON-LD data in the <a href="https://json-ld.org/playground/">JSON-LD Playground</a>, a tool that visualizes and interacts with linked data.</li>
-      </ul>
-      <h4 id="what-s-on-this-page">What&#39;s on This Page</h4>
-      <ul>
-      <li><strong>Original CSV File</strong>: The raw CSV data in its basic form.</li>
-      <li><strong>CSVW Metadata</strong>: The metadata describing the structure and semantics of the CSV data.</li>
-      <li><strong>Compiled JSON-LD</strong>: The output from the csvw-to-jsonld converter, presenting the data in a linked data format.</li>
-      </ul>
-      <p>The ODI CSVW Data Browser demonstrates how open data standards like CSVW and JSON-LD can transform the presentation and usability of data, enhancing both its accessibility and interoperability.</p>
+      <%- readFileContent('docs/ABOUT.html') %>
     </section>
     <section id="examples" class="hidden">
-      <h2>Example data</h2>
       <%- readFileContent(sourcedir + '/README.html') %>
     </section>
     <section id="originalCSV" class="hidden">

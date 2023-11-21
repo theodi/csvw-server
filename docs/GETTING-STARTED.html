@@ -1,0 +1,64 @@
+<h1 id="getting-started">Getting started</h1>
+<p>The ODI CSVW Data Browser is a sophisticated tool that showcases the versatility and richness of data when combined with CSV on the Web (CSVW) metadata. <br/>This platform not only displays the original CSV file and its associated CSVW metadata but also the transformed JSON-LD output, all derived using the Open Data Institute's csvw-to-jsonld converter.</p>
+<h2 id="in-your-web-browser">In your web browser</h2>
+<ol>
+<li><p><strong>Access the Transaction List</strong>: Open your web browser and go to <a href="https://csvw-demo.learndata.info/transactions/">https://csvw-demo.learndata.info/transactions/</a>. Here, you will see a list of all available transactions.</p>
+</li>
+<li><p><strong>Understanding the Transaction List</strong>:</p>
+<ul>
+<li>Each row represents a different transaction.</li>
+<li>The columns represent various attributes of the transactions, such as date, amount, description, etc.</li>
+</ul>
+</li>
+<li><p><strong>Viewing a Specific Transaction</strong>:</p>
+<ul>
+<li>To view a specific transaction, click on its corresponding link in the list under the @id column</li>
+<li>This will take you to a new page (e.g., <a href="https://csvw-demo.learndata.info/transactions/1">https://csvw-demo.learndata.info/transactions/1</a>) where you can see all the details of the selected transaction.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="using-httpie-io-app-to-fetch-data-in-different-formats-and-languages">Using HTTPie.io/app to Fetch Data in Different Formats and Languages</h1>
+<p>HTTPie.io/app is a web-based service that allows you to make HTTP requests directly from your browser.</p>
+<ol>
+<li><p><strong>Access HTTPie.io/app</strong>: Open your web browser and go to <a href="https://httpie.io/app">https://httpie.io/app</a>.</p>
+</li>
+<li><p><strong>Making a GET Request</strong>:</p>
+<ul>
+<li>In the URL field, enter the URL of the transaction you want to view, e.g., <code>https://csvw-demo.learndata.info/transactions/1</code> (single transaction) or <code>https://csvw-demo.learndata.info/transactions/</code> (all transactions).</li>
+<li>Click on the &quot;Send&quot; button to make the request.</li>
+</ul>
+</li>
+<li><p><strong>Specifying Accept-Language</strong>:</p>
+<ul>
+<li>To request data in a specific language, click on the &quot;Headers&quot; tab.</li>
+<li>Add a new header with <code>Name</code> set to <code>Accept-Language</code> and <code>Value</code> set to the desired language code, currently only <code>fr</code> is supported in addition to <code>en</code>.</li>
+<li>Click &quot;Send&quot; to make the request.</li>
+<li>Note, if look at the web page, only the column headings will be translated.</li>
+</ul>
+</li>
+<li><p><strong>Fetching Data in Different Formats</strong>:</p>
+<ul>
+<li>To fetch data in different formats, add an <code>Accept</code> header with the desired content type.</li>
+<li>For CSV: <code>text/csv</code></li>
+<li>For JSON: <code>application/json</code></li>
+<li>For JSON-LD: <code>application/ld+json</code></li>
+<li>For HTML: <code>text/html</code></li>
+<li>After setting the header, click &quot;Send&quot; to make the request.</li>
+</ul>
+</li>
+<li><p><strong>Viewing the Response</strong>:</p>
+<ul>
+<li>The response will be displayed in the lower part of the screen.</li>
+<li>You can view the status code, headers, and response body.</li>
+</ul>
+</li>
+</ol>
+<p>By following these steps, you can easily view and fetch transaction data in various formats and languages using HTTPie.io/app directly from your web browser.</p>
+<hr>
+<h2 id="other-pages">Other pages</h2>
+<p><strong>About this tool</strong>: Describes the tool, how it works and how it converts CSV data into full linked data via the CSV on the Web (CSVW) standard.</p>
+<p><strong>About this data</strong>: Provides a description of how the data you are looking at has been generated. Note that the tool uses many examples with increased complexity. The current version you are looking at is highlighted by the banner in the top right of the screen.</p>
+<p><strong>View CSV</strong>: View the original CSV file that has been translated into linked data via the CSVW standard.</p>
+<p><strong>View CSVW</strong>: View the CSVW metadata that enables the translation into linked data.</p>
+<p><strong>View JSON-LD</strong>: View the resulting linked data that has been generated from the original CSV and CSVW metadata.</p>

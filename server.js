@@ -12,6 +12,7 @@ app.use(cors());
 app.use('/data', express.static('data'));
 app.use('/style', express.static('style'));
 app.use('/img', express.static('img'));
+app.use('/docs', express.static('docs'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 

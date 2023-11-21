@@ -1,1 +1,45 @@
-<p>This example is the same as the previous one in terms of data, but this time descriptive metadata has been included in the CSVW file.</p>
+<h1 id="example2">Example2 CSVW Metadata</h1>
+<h2 id="overview">Overview</h2>
+<p>This README outlines the features of the CSVW metadata for the <code>example2</code> dataset. This dataset also includes a list of financial transactions, similar to <code>example1</code>, but with additional metadata descriptors.</p>
+<h2 id="key-differences-from-example-1">Key Differences from Example 1</h2>
+<ol>
+<li><p><strong>Descriptive Metadata</strong>:</p>
+<ul>
+<li><strong>Title</strong>: &quot;Financial Transactions&quot; - Provides a general title for the dataset.</li>
+<li><strong>Description</strong>: &quot;A log of financial transactions carried out between CompanyA and CompanyB in 2023.&quot; - Offers a clear description of the dataset&#39;s content.</li>
+<li><strong>Publisher</strong>:<ul>
+<li><code>schema:name</code>: &quot;FinCorp Ltd.&quot; - Names the publisher of the dataset.</li>
+<li><code>schema:url</code>: Points to the publisher&#39;s URL.</li>
+</ul>
+</li>
+<li><strong>Keywords</strong>: [&quot;transactions&quot;, &quot;financial&quot;] - Lists keywords for categorizing or searching the dataset.</li>
+<li><strong>License</strong>: Specifies the dataset&#39;s license as Creative Commons Attribution (<code>cc-by</code>) via a URL.</li>
+<li><strong>Modified Date</strong>: Indicates the last modification date of the dataset (<code>2023-10-25</code>).</li>
+</ul>
+</li>
+<li><p><strong>Table Schema</strong>:</p>
+<ul>
+<li>Structurally similar to <code>example1</code>, including columns for <code>transaction_id</code>, <code>date</code>, <code>payer</code>, <code>payee</code>, <code>description</code>, and <code>amount</code>.</li>
+<li>Each column has bilingual titles (English and French) and specified data types.</li>
+<li>The <code>aboutUrl</code> is set to <code>&quot;http://example.com/transactions/{transaction_id}&quot;</code>, providing a unique URI for each transaction.</li>
+</ul>
+</li>
+<li><p><strong>Context Specification</strong>:</p>
+<ul>
+<li>Identical to <code>example1</code>, with the CSVW namespace and English as the default language.</li>
+</ul>
+</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>This metadata enriches the CSV data with additional context, making it more understandable and accessible.</li>
+<li>It can be utilized by data processing tools to generate RDF data, facilitate data mapping, or simply understand the dataset&#39;s structure and content.</li>
+</ul>
+<h2 id="enhanced-metadata">Enhanced Metadata</h2>
+<ul>
+<li>The addition of descriptive metadata like title, description, publisher information, keywords, licensing, and modification date makes this CSVW metadata more informative and useful for data cataloging and discovery.</li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Similar to <code>example1</code>, this metadata is specifically designed for the <code>transactions.csv</code> file structure and may require adjustment for other datasets.</li>
+</ul>
