@@ -7,11 +7,12 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-app.use('/data', express.static('data'));
+app.use(cors());
 
+app.use('/data', express.static('data'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
-app.use(cors());
+
 
 const base = process.env.BASE;
 var sourcedir = process.env.DATADIR;
