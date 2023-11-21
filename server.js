@@ -16,7 +16,6 @@ app.use('/docs', express.static('docs'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
-
 const base = process.env.BASE;
 var sourcedir = process.env.DATADIR;
 let jsonData = {};
