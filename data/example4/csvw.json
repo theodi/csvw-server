@@ -1,15 +1,13 @@
 {
-    "@context": {
-      "@base": "http://jpmc.learndata.info/",
+    "@context": [
+      "http://www.w3.org/ns/csvw",
+      {
       "@language": "en",
-      "csvw": "http://www.w3.org/ns/csvw",
-      "schema": "http://schema.org/",
-      "dc": "http://purl.org/dc/terms/",
-      "dcat": "http://www.w3.org/ns/dcat#",
-      "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
-    },
-    "url": "transactions.csv",
+      "@base": "https://csvw-demo.learndata.info/",
+      "pay": "http://reference.data.gov.uk/def/payment#"
+      }
+    ],
+    "url": "https://csvw-demo.learndata.info/data/example4/transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
     "dc:publisher": {
@@ -52,8 +50,8 @@
              "en": "Payer"
           },
           "datatype": "string",
-          "propertyUrl": "http://reference.data.gov.uk/def/payment#payer",
-          "valueUrl": "http://jpmc.learndata.info/company/{payer}",
+          "propertyUrl": "pay:payer",
+          "valueUrl": "company/{payer}",
           "required": true
         },
         {
@@ -63,8 +61,8 @@
             "en": "Payee"
           },
           "datatype": "string",
-          "propertyUrl": "http://reference.data.gov.uk/def/payment#payee",
-          "valueUrl": "http://jpmc.learndata.info/company/{payee}",
+          "propertyUrl": "pay:payee",
+          "valueUrl": "company/{payee}",
           "required": true
         },
         {
@@ -87,34 +85,34 @@
         {
           "virtual": true,
           "propertyUrl": "schema:amount",
-          "valueUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount"
+          "valueUrl": "transactions/{transaction_id}#amount"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "rdf:type",
           "valueUrl": "schema:MonetaryAmount"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "schema:value",
           "valueUrl": "{amount}"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "schema:currency",
           "valueUrl": "USD"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}",
+          "aboutUrl": "transactions/{transaction_id}",
           "propertyUrl": "rdf:type",
-          "valueUrl": "http://reference.data.gov.uk/def/payment#Payment"
+          "valueUrl": "pay:Payment"
         }
       ],
       "primaryKey": "transaction_id",
-      "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}"
+      "aboutUrl": "transactions/{transaction_id}"
     }
   }

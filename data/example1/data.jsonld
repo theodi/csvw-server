@@ -1,12 +1,10 @@
 {
-  "@context": {
-    "@base": "http://jpmc.learndata.info/",
-    "schema": "http://schema.org/",
-    "dc": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
-  },
+  "@context": [
+    "http://www.w3.org/ns/csvw",
+    {
+      "@language": "en"
+    }
+  ],
   "@graph": [
     {
       "transaction_id": {
@@ -24,7 +22,7 @@
         "@value": 5000,
         "@type": "xsd:decimal"
       },
-      "@id": "http://jpmc.learndata.info/transactions/1"
+      "@id": "https://csvw-demo.learndata.info/transactions/1"
     },
     {
       "transaction_id": {
@@ -42,7 +40,7 @@
         "@value": 250,
         "@type": "xsd:decimal"
       },
-      "@id": "http://jpmc.learndata.info/transactions/2"
+      "@id": "https://csvw-demo.learndata.info/transactions/2"
     },
     {
       "transaction_id": {
@@ -60,7 +58,7 @@
         "@value": 1000,
         "@type": "xsd:decimal"
       },
-      "@id": "http://jpmc.learndata.info/transactions/3"
+      "@id": "https://csvw-demo.learndata.info/transactions/3"
     }
   ]
 }

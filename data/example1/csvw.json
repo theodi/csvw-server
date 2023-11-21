@@ -3,7 +3,7 @@
     "http://www.w3.org/ns/csvw",
     {"@language": "en"}
   ],
-  "url": "transactions.csv",
+  "url": "https://csvw-demo.learndata.info/data/example1/transactions.csv",
   "tableSchema": {
     "columns": [
       {
@@ -63,6 +63,6 @@
       }
     ],
     "primaryKey": "transaction_id",
-    "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}"
+    "aboutUrl": "https://csvw-demo.learndata.info/transactions/{transaction_id}"
   }
 }

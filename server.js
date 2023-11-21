@@ -11,7 +11,8 @@ app.use('/data', express.static('data'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
-var sourcedir = "data/example4/";
+const base = process.env.BASE;
+var sourcedir = process.env.DATADIR;
 let jsonData = {};
 
 app.locals.readFileContent = function(filePath) {
@@ -72,18 +73,18 @@ function getMetadataFromGraph(jsonLdGraph) {
 }
 
 
-function sendData(transactionData,req,res) {
+function sendData(data,req,res) {
   const negotiator = new Negotiator(req);
   const preferredMediaType = negotiator.mediaType(['text/html', 'application/ld+json', 'text/csv', 'application/json']);
   const language = negotiator.language(['en', 'fr']) || 'en';
 
-  if (!Array.isArray(transactionData)) {
-    transactionData = [transactionData];
+  if (!Array.isArray(data)) {
+    data = [data];
   }
 
   // Extract the metadata from the original JSON-LD graph
   const metadata = getMetadataFromGraph(jsonData);
-  let labeledData = transactionData.map(t => getLabelledData(t, language));
+  let labeledData = {};
 
   switch (preferredMediaType) {
     case 'application/ld+json':
@@ -91,34 +92,38 @@ function sendData(transactionData,req,res) {
         '@context': jsonData['@context'],
         ...Object.fromEntries(Object.entries(metadata)),
         '@graph': [
-          transactionData
+          data
         ]
       };
       return res.json(jsonLDResponse);
     case 'text/html':
-      res.render('transactions', { transactions: transactionData.map(t => getLabelledDataWithURIs(t, language)), metadata, objectToString, sourcedir: sourcedir, renderCsvToTable});
+      data = updateIdsWithBase(data,process.env.BASE);
+      res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language)), metadata, objectToString, sourcedir: sourcedir, renderCsvToTable});
       break;
     case 'text/csv':
+      data = updateIdsWithBase(data,process.env.BASE);
+      data = replacePrefixes(data);
+      labeledData = data.map(t => getLabelledData(t, language));
       try {
-        // Making sure labeledTransactions is always an array
-        const transactionsArray = Array.isArray(labeledData) ? labeledData : [labeledData];
-        // Convert labeled transaction objects to array of objects for CSV export
-        const csvData = transactionsArray.map(transaction => {
-          const transactionObject = {};
-          for (const [key, value] of Object.entries(transaction)) {
+        // Making sure labeledData is always an array
+        const dataArray = Array.isArray(labeledData) ? labeledData : [labeledData];
+        // Convert labeled data objects to array of objects for CSV export
+        const csvData = dataArray.map(item => {
+          const dataObject = {};
+          for (const [key, value] of Object.entries(item)) {
             if (typeof value === 'object' && value !== null) {
-              transactionObject[key] = value['@value'] || value['schema:value'] || value;
+              dataObject[key] = value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value;
               tempObject = getLabelledData(value,language);
               for (const tempKey in tempObject) {
-                if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != "@value" && tempKey != 'schema:value') {
-                  transactionObject[tempKey] = tempObject[tempKey];
+                if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' && tempKey != "@value" && tempKey != 'schema:value' && tempKey !='http://schema.org/value') {
+                  dataObject[tempKey] = tempObject[tempKey];
                 }
               }
             } else {
-              transactionObject[key] = value;
+              dataObject[key] = value;
             }
           }
-          return transactionObject;
+          return dataObject;
         });
 
         const csvHeaders = Object.keys(csvData[0]).map(key => ({ key, label: key }));
@@ -127,9 +132,9 @@ function sendData(transactionData,req,res) {
           header: true,
           columns: csvHeaders,
         });
-
+        const filename = req.path.replace(/\//g, '');
         res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', 'attachment; filename=transactions.csv');
+        res.setHeader('Content-Disposition', 'attachment; filename=' + filename + '.csv');
         res.send(output);
       } catch (err) {
         console.error(err);
@@ -137,6 +142,9 @@ function sendData(transactionData,req,res) {
       }
       break;
     case 'application/json':
+      data = updateIdsWithBase(data,process.env.BASE);
+      data = replacePrefixes(data);
+      labeledData = data.map(t => getLabelledData(t, language));
       res.json(labeledData);
       break;
     default:
@@ -200,31 +208,45 @@ function expandURI(prefix, context) {
   return prefix; // Return the original prefix if not found in context
 }
 
-function getLabelledDataWithURIs(transactionData, language) {
-  // Map the transaction data to labels and values
-  const context = jsonData['@context'];
+function getLabelledDataWithURIs(data, language) {
+  // Map the data to labels and values
+  const context = {
+    "schema": "http://schema.org/",
+    "dc": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "pay": "http://reference.data.gov.uk/def/payment#"
+  };
+
   const labeledData = {};
-  for (const key in transactionData) {
+  for (const key in data) {
     let skip = false;
     let label = key;
-    let value = transactionData[key];
+    let value = data[key];
     let uri = null;
-    let link = null;
+    let labellink = null;
+    let valuelink = null;
 
     if (jsonData[key] && jsonData[key]['rdfs:label']) {
       const labels = jsonData[key]['rdfs:label'];
       const labelObject = labels.find(label => label['@language'] === language) || labels.find(label => label['@language'] === 'en');
       label = labelObject ? labelObject['@value'] : key;
       uri = jsonData[key]['@id'] ? jsonData[key]['@id'] : null;
-      link = expandURI(uri,context);
+      labellink = expandURI(uri,context);
+    } else {
+      label = key.split(":")[1] ? key.split(":")[1] : key;
+      if (label != key) {
+        labellink = expandURI(key,context);
+      }
     }
-
-    if (typeof transactionData[key] === 'object') {
-      if ('@value' in transactionData[key]) {
-        value = transactionData[key]['@value'];
-      } else if ('@id' in transactionData[key]) {
-        uri = transactionData[key]['@id'];
-        if (uri.startsWith(transactionData['@id'] + "#")) {
+    if (typeof data[key] === 'object') {
+      if ('@value' in data[key]) {
+        value = data[key]['@value'];
+      } else if ('@id' in data[key]) {
+        uri = data[key]['@id'];
+        if (uri.startsWith(data['@id'] + "#")) {
           tempObject = getLabelledDataWithURIs(value,language);
           for (const tempKey in tempObject) {
             if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != '@value' && tempKey != 'schema:value') {
@@ -235,26 +257,37 @@ function getLabelledDataWithURIs(transactionData, language) {
         } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
-          link = expandURI(uri,context);
+          labellink = expandURI(uri,context);
         } else {
           value = uri; // Fallback to URI if label not found
         }
       }
     }
     if (!skip) {
-      labeledData[label] = { value, link };
+      if (typeof value === 'string') {
+        if (value.split(":")[0].startsWith("http")) {
+          valuelink = value;
+          split = value.split("/");
+          value = split[split.length-1];
+        }
+        if(value.split(":")[1] && !value.split(":")[0].startsWith("http")) {
+          valuelink = expandURI(value,context);
+          value = value.split(":")[1];
+        }
+      }
+      labeledData[label] = { value, valuelink, labellink };
     }
   }
   return labeledData;
 }
 
-function getLabelledData(transactionData, language) {
-  // Map the transaction data to labels and values
+function getLabelledData(data, language) {
+  // Map the data to labels and values
   const context = jsonData['@context'];
   const labeledData = {};
-  for (const key in transactionData) {
+  for (const key in data) {
     let label = key;
-    let value = transactionData[key];
+    let value = data[key];
     let uri = null;
     let link = null;
 
@@ -266,13 +299,13 @@ function getLabelledData(transactionData, language) {
       link = expandURI(uri,context);
     }
 
-    if (typeof transactionData[key] === 'object') {
-      if ('@value' in transactionData[key]) {
-        value = transactionData[key]['@value'];
-      } else if ('@id' in transactionData[key]) {
-        uri = transactionData[key]['@id'];
-        if (uri.startsWith(transactionData['@id'] + "#")) {
-          value = getLabelledData(transactionData[key],language);
+    if (typeof data[key] === 'object') {
+      if ('@value' in data[key]) {
+        value = data[key]['@value'];
+      } else if ('@id' in data[key]) {
+        uri = data[key]['@id'];
+        if (uri.startsWith(data['@id'] + "#")) {
+          value = getLabelledData(data[key],language);
         } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
@@ -287,26 +320,84 @@ function getLabelledData(transactionData, language) {
   return labeledData;
 }
 
-app.get('/transactions/', async (req, res) => {
-  const nodes = jsonData['@graph'] || [];
-  const transactionData = nodes.filter(node => {
-    return typeof node['@id'] === 'string' && node['@id'].startsWith('http://jpmc.learndata.info/transactions/');
+function replacePrefixes(data) {
+  context = {
+    "schema": "http://schema.org/",
+    "dc": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "pay": "http://reference.data.gov.uk/def/payment#"
+  };
+
+  function replacePrefix(str) {
+      const [prefix, suffix] = str.split(':');
+      if (context[prefix]) {
+          return context[prefix] + suffix;
+      }
+      return str;
+  }
+
+  // Recursively process data
+  function processNode(node) {
+      if (typeof node === 'string' && node.includes(':')) {
+          return replacePrefix(node);
+      } else if (Array.isArray(node)) {
+          return node.map(processNode);
+      } else if (typeof node === 'object' && node !== null) {
+          const newNode = {};
+          Object.keys(node).forEach(key => {
+              newNode[replacePrefix(key)] = processNode(node[key]);
+          });
+          return newNode;
+      }
+      return node;
+  }
+
+  return processNode(data);
+}
+
+function updateIdsWithBase(data, baseUrl) {
+  return data.map(item => {
+      const updatedItem = { ...item };
+      Object.keys(updatedItem).forEach(key => {
+          if (key === '@id' && !updatedItem[key].startsWith('http')) {
+              updatedItem[key] = baseUrl + updatedItem[key];
+          } else if (typeof updatedItem[key] === 'object' && updatedItem[key] !== null) {
+              updatedItem[key] = Array.isArray(updatedItem[key])
+                  ? updateIdsWithBase(updatedItem[key], baseUrl)
+                  : updateIdsWithBase([updatedItem[key]], baseUrl)[0]; // Recursively update nested objects
+          }
+      });
+      return updatedItem;
   });
-  if (!transactionData) {
-    return res.status(404).send('Transaction not found');
+}
+
+app.get('*', async (req, res) => {
+  const nodes = jsonData['@graph'] || [];
+  let requesturi = 'transactions/';
+  requesturi = req.path.slice(1);
+
+  // Define baseValue from contextArray
+  const baseValue = jsonData["@context"][1]['@base']; // your logic to get baseValue from contextArray
+
+  // Set a variable for the base URL
+  const baseUrl = baseValue === process.env.BASE ? '' : process.env.BASE;
+
+  let data = [];
+
+  if (requesturi.slice(-1) == "/") {
+    data = nodes.filter(node => {
+      return typeof node['@id'] === 'string' && node['@id'].startsWith(baseUrl + requesturi);
+    });
+  } else {
+    data = jsonData['@graph'].find(obj => obj['@id'] === `${baseUrl}${requesturi}`);
   }
-  sendData(transactionData,req,res);
-});
-
-app.get('/transactions/:id', (req, res) => {
-  const transactionId = req.params.id;
-
-  const transactionData = jsonData['@graph'].find(obj => obj['@id'] === `http://jpmc.learndata.info/transactions/${transactionId}`);
-
-  if (!transactionData) {
-    return res.status(404).send('Transaction not found');
+  if (!data || data.length == 0) {
+    return res.status(404).send('Item not found');
   }
-  sendData(transactionData,req,res);
+  sendData(data,req,res);
 });
 
 const host = process.env.HOST || 'localhost';

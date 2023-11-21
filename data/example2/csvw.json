@@ -3,7 +3,7 @@
       "http://www.w3.org/ns/csvw",
       {"@language": "en"}
     ],
-    "url": "transactions.csv",
+    "url": "https://csvw-demo.learndata.info/data/example2/transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
     "dc:publisher": {
@@ -72,6 +72,6 @@
         }
       ],
       "primaryKey": "transaction_id",
-      "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}"
+      "aboutUrl": "https://csvw-demo.learndata.info/transactions/{transaction_id}"
     }
   }

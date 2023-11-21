@@ -32,6 +32,20 @@ git clone https://github.com/theodi/csvw-server.git
 cd csvw-server
 npm install
 ```
+## Configuration
+
+You can configure the server using a `.env` file. Here is an example configuration:
+
+```env
+PORT=3000
+HOST=localhost
+BASE=http://example.com/
+DATADIR=data/example4/
+```
+
+The BASE configuration variable specifies the root URL of your server. It also acts as the base prefix for your JSON-LD/CSVW data. This should be set to the domain you intend to serve data from, ensuring consistency between the server's domain and the identifiers used in your data.
+
+DATADIR is the directory from which to load the jsonld from and should contain a file called data.jsonsld
 
 ## Usage
 
@@ -58,15 +72,6 @@ Supported formats:
 - `text/csv`: CSV format.
 - `application/json`: JSON format.
 - `text/html`: HTML format.
-
-## Configuration
-
-You can configure the server using a `.env` file. Here is an example configuration:
-
-```env
-PORT=3000
-HOST=localhost
-```
 
 ## Contributing
 

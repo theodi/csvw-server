@@ -1,12 +1,12 @@
 {
-  "@context": {
-    "@base": "http://jpmc.learndata.info/",
-    "schema": "http://schema.org/",
-    "dc": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
-  },
+  "@context": [
+    "http://www.w3.org/ns/csvw",
+    {
+      "@language": "en",
+      "@base": "https://csvw-demo.learndata.info/",
+      "pay": "http://reference.data.gov.uk/def/payment#"
+    }
+  ],
   "@graph": [
     {
       "schema:identifier": {
@@ -17,21 +17,21 @@
         "@value": "2023-01-15",
         "@type": "xsd:date"
       },
-      "http://reference.data.gov.uk/def/payment#payer": {
-        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      "pay:payer": {
+        "@id": "company/CompanyA"
       },
-      "http://reference.data.gov.uk/def/payment#payee": {
-        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      "pay:payee": {
+        "@id": "company/CompanyB"
       },
       "schema:description": "Payment for services",
-      "@id": "http://jpmc.learndata.info/transactions/1",
+      "@id": "transactions/1",
       "schema:amount": {
-        "@id": "http://jpmc.learndata.info/transactions/1#amount",
+        "@id": "transactions/1#amount",
         "rdf:type": "schema:MonetaryAmount",
         "schema:value": "5000",
         "schema:currency": "USD"
       },
-      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
+      "rdf:type": "pay:Payment"
     },
     {
       "schema:identifier": {
@@ -42,21 +42,21 @@
         "@value": "2023-01-20",
         "@type": "xsd:date"
       },
-      "http://reference.data.gov.uk/def/payment#payer": {
-        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      "pay:payer": {
+        "@id": "company/CompanyB"
       },
-      "http://reference.data.gov.uk/def/payment#payee": {
-        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      "pay:payee": {
+        "@id": "company/CompanyA"
       },
       "schema:description": "Refund for overpayment",
-      "@id": "http://jpmc.learndata.info/transactions/2",
+      "@id": "transactions/2",
       "schema:amount": {
-        "@id": "http://jpmc.learndata.info/transactions/2#amount",
+        "@id": "transactions/2#amount",
         "rdf:type": "schema:MonetaryAmount",
         "schema:value": "250",
         "schema:currency": "USD"
       },
-      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
+      "rdf:type": "pay:Payment"
     },
     {
       "schema:identifier": {
@@ -67,21 +67,21 @@
         "@value": "2023-02-01",
         "@type": "xsd:date"
       },
-      "http://reference.data.gov.uk/def/payment#payer": {
-        "@id": "http://jpmc.learndata.info/company/CompanyA"
+      "pay:payer": {
+        "@id": "company/CompanyA"
       },
-      "http://reference.data.gov.uk/def/payment#payee": {
-        "@id": "http://jpmc.learndata.info/company/CompanyB"
+      "pay:payee": {
+        "@id": "company/CompanyB"
       },
       "schema:description": "Monthly subscription fee",
-      "@id": "http://jpmc.learndata.info/transactions/3",
+      "@id": "transactions/3",
       "schema:amount": {
-        "@id": "http://jpmc.learndata.info/transactions/3#amount",
+        "@id": "transactions/3#amount",
         "rdf:type": "schema:MonetaryAmount",
         "schema:value": "1000",
         "schema:currency": "USD"
       },
-      "rdf:type": "http://reference.data.gov.uk/def/payment#Payment"
+      "rdf:type": "pay:Payment"
     }
   ],
   "dc:title": "Financial Transactions",
@@ -129,8 +129,8 @@
       }
     ]
   },
-  "http://reference.data.gov.uk/def/payment#payer": {
-    "@id": "http://reference.data.gov.uk/def/payment#payer",
+  "pay:payer": {
+    "@id": "pay:payer",
     "rdfs:label": [
       {
         "@value": "Payeur",
@@ -142,8 +142,8 @@
       }
     ]
   },
-  "http://reference.data.gov.uk/def/payment#payee": {
-    "@id": "http://reference.data.gov.uk/def/payment#payee",
+  "pay:payee": {
+    "@id": "pay:payee",
     "rdfs:label": [
       {
         "@value": "Bénéficiaire",

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transactions</title>
+  <title>Data Renderer</title>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
   <style>
     body {
@@ -57,17 +57,17 @@
   </div>
 
 
-  <% if (Array.isArray(transactions)) { %>
-    <!-- Rendering a list of transactions -->
+  <% if (Array.isArray(inputData)) { %>
+    <!-- Rendering a list of things -->
     <div class="data">
       <h2>Data</h2>
-      <table id="transactionsTable" class="display">
+      <table id="dataTable" class="display">
         <thead>
           <tr>
-            <% for (const [label, data] of Object.entries(transactions[0])) { %>
+            <% for (const [label, data] of Object.entries(inputData[0])) { %>
               <th>
-              <% if (data.link) { %>
-                <a href="<%= data.link %>" target="_blank"><%= label %></a>
+              <% if (data.labellink) { %>
+                <a href="<%= data.labellink %>" target="_blank"><%= label %></a>
               <% } else { %>
                 <%= label %><br>
               <% } %>
@@ -76,12 +76,12 @@
           </tr>
         </thead>
         <tbody>
-          <% transactions.forEach(transaction => { %>
+          <% inputData.forEach(item => { %>
             <tr>
-              <% for (const data of Object.values(transaction)) { %>
+              <% for (const data of Object.values(item)) { %>
                 <td>
-                  <% if (typeof data.value === 'string' && data.value.startsWith('http')) { %>
-                    <a href="<%= data.value %>" target="_blank"><%= data.value %></a>
+                  <% if (data.valuelink) { %>
+                    <a href="<%= data.valuelink %>" target="_blank"><%= data.value %></a>
                   <% } else { %>
                     <%= data.value %>
                   <% } %>
@@ -97,7 +97,7 @@
     <div class="data">
       <h2>Data</h2>
       <ul>
-        <% for (const [key, value] of Object.entries(transactions)) { %>
+        <% for (const [key, value] of Object.entries(inputData)) { %>
           <li><strong><%= key %>:</strong>
             <% if (typeof value === 'string' && value.startsWith('http')) { %>
               <a href="<%= value %>" target="_blank"><%= value %></a>
@@ -111,17 +111,17 @@
   <% } %>
   <hr/>
   <h2>Original CSV</h2>
-  <p><a href="/<%= sourcedir %>/transactions.csv" download>Download CSV</a></p>
+  <p><a href="/<%= sourcedir %>transactions.csv" download>Download CSV</a></p>
   <div><%- renderCsvToTable(sourcedir + '/transactions.csv') %></div>
 
   <h2>CSVW Metadata</h2>
-  <p><a href="/<%= sourcedir %>/csvw.json" download>Download CSVW Metadata</a></p>
+  <p><a href="/<%= sourcedir %>csvw.json" download>Download CSVW Metadata</a></p>
   <div class="code-box">
     <pre><code class="language-json"><%- readFileContent(sourcedir + '/csvw.json') %></code></pre>
   </div>
 
   <h2>Compiled JSON-LD Data</h2>
-  <p><a href="/<%= sourcedir %>/data.jsonld" download>Download compiled JSON-LD</a></p>
+  <p><a href="/<%= sourcedir %>data.jsonld" download>Download compiled JSON-LD</a></p>
   <div class="code-box">
     <pre><code class="language-json"><%- readFileContent(sourcedir + '/data.jsonld') %></code></pre>
   </div>
@@ -133,7 +133,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-json.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('#transactionsTable').DataTable();
+      $('#dataTable').DataTable();
       Prism.highlightAll();
     });
   </script>

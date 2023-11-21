@@ -1,14 +1,26 @@
 {
   "name": "csvw-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An Express-based server for handling CSV on the Web (CSVW) format, supporting various content negotiation options.",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theodi/csvw-server.git"
+  },
+  "keywords": [
+    "csvw",
+    "express",
+    "content-negotiation",
+    "json-ld",
+    "csv",
+    "data-server"
+  ],
+  "author": "The Open Data Institute <info@theodi.org>",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.20.2",
     "csv-stringify": "^6.4.4",

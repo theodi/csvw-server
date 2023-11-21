@@ -1,9 +1,13 @@
 {
     "@context": [
-        "http://www.w3.org/ns/csvw",
-        {"@language": "en"}
-      ],
-    "url": "transactions.csv",
+      "http://www.w3.org/ns/csvw",
+      {
+      "@language": "en",
+      "@base": "https://csvw-demo.learndata.info/",
+      "pay": "http://reference.data.gov.uk/def/payment#"
+      }
+    ],
+    "url": "https://csvw-demo.learndata.info/data/example3/transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
     "dc:publisher": {
@@ -46,7 +50,7 @@
              "en": "Payer"
           },
           "datatype": "string",
-          "propertyUrl": "http://reference.data.gov.uk/def/payment#payer",
+          "propertyUrl": "payer",
           "required": true
         },
         {
@@ -56,7 +60,7 @@
             "en": "Payee"
           },
           "datatype": "string",
-          "propertyUrl": "http://reference.data.gov.uk/def/payment#payee",
+          "propertyUrl": "payee",
           "required": true
         },
         {
@@ -79,28 +83,28 @@
         {
           "virtual": true,
           "propertyUrl": "schema:amount",
-          "valueUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount"
+          "valueUrl": "transactions/{transaction_id}#amount"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "rdf:type",
           "valueUrl": "schema:MonetaryAmount"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "schema:value",
           "valueUrl": "{amount}"
         },
         {
           "virtual": true,
-          "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}#amount",
+          "aboutUrl": "transactions/{transaction_id}#amount",
           "propertyUrl": "schema:currency",
           "valueUrl": "USD"
         }
       ],
       "primaryKey": "transaction_id",
-      "aboutUrl": "http://jpmc.learndata.info/transactions/{transaction_id}"
+      "aboutUrl": "transactions/{transaction_id}"
     }
   }
