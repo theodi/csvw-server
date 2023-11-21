@@ -10,6 +10,8 @@ require('dotenv').config();
 app.use(cors());
 
 app.use('/data', express.static('data'));
+app.use('/style', express.static('style'));
+app.use('/img', express.static('img'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
@@ -101,7 +103,7 @@ function sendData(data,req,res) {
       return res.json(jsonLDResponse);
     case 'text/html':
       data = updateIdsWithBase(data,process.env.BASE);
-      res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language)), metadata, objectToString, sourcedir: sourcedir, renderCsvToTable});
+      res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language)), metadata, objectToString, sourcedir: sourcedir, base: process.env.BASE, renderCsvToTable});
       break;
     case 'text/csv':
       data = updateIdsWithBase(data,process.env.BASE);

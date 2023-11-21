@@ -1,135 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Renderer</title>
-  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-  <style>
-    body {
-      max-width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .metadata, .data {
-      margin-bottom: 20px;
-    }
-    .code-box {
-      max-width: 95%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    table.csv-table {
-      border-collapse: collapse;
-      width: 95%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    table.csv-table th, table.csv-table td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left;
-    }
-    table.csv-table th {
-      background-color: #f2f2f2;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.8/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
 </head>
 <body>
-  <h1>ODI CSVW data browser</h1>
-  <p>This page shows the data you have requested as parsed from CSVW using a combination of CSV file and associated metadata.</p>
-  <p>You can see the original CSV file and CSVW metadata below, alongwith the JSON-LD that is compiled from this.</p>
-  <p>The JSON-LD data is what is used to provide this service.</p>
-  <h1>About this example</h1>
-  <%- readFileContent(sourcedir + '/README.html') %>
-  <hr/>
-  <div class="metadata">
-    <h2>Metadata</h2>
-    <p>This section lists the metadata related to the data.</p>
+  <div class="sidebar">
+    <img class="odi-logo" src="/img/odi-logo.png">
     <ul>
-      <% for (const [key, value] of Object.entries(metadata)) { %>
-        <% if (!(typeof value === 'object' && value['@id'] && value['rdfs:label'] && Object.keys(value).length === 2)) { %>
-          <li><strong><%= key %>:</strong> <%- objectToString(value) %></li>
-        <% } %>
-      <% } %>
+      <li class="arrow-icon"><a href="#data" class="toggle-link">Home</a></li>
+      <li class="arrow-icon"><a href="#about" class="toggle-link">About this tool</a></li>
+      <li class="arrow-icon"><a href="#examples" class="toggle-link">About this data</a></li>
+      <li class="arrow-icon"><a href="#originalCSV" class="toggle-link">View CSV</a></li>
+      <li class="arrow-icon"><a href="#csvwMetadata" class="toggle-link">View CSVW</a></li>
+      <li class="arrow-icon"><a href="#jsonLD" class="toggle-link">View Compiled JSON-LD</a></li>
     </ul>
   </div>
-
-
-  <% if (Array.isArray(inputData)) { %>
-    <!-- Rendering a list of things -->
-    <div class="data">
-      <h2>Data</h2>
-      <table id="dataTable" class="display">
-        <thead>
-          <tr>
-            <% for (const [label, data] of Object.entries(inputData[0])) { %>
-              <th>
-              <% if (data.labellink) { %>
-                <a href="<%= data.labellink %>" target="_blank"><%= label %></a>
-              <% } else { %>
-                <%= label %><br>
-              <% } %>
-              </th>
+  <div class="main-content">
+    <section id="data">
+      <h1>ODI CSVW data browser</h1>
+      <div class="metadata">
+        <h2>Metadata</h2>
+        <p>This section lists the metadata related to the data.</p>
+        <ul>
+          <% for (const [key, value] of Object.entries(metadata)) { %>
+            <% if (!(typeof value === 'object' && value['@id'] && value['rdfs:label'] && Object.keys(value).length === 2)) { %>
+              <li><strong><%= key %>:</strong> <%- objectToString(value) %></li>
             <% } %>
-          </tr>
-        </thead>
-        <tbody>
-          <% inputData.forEach(item => { %>
-            <tr>
-              <% for (const data of Object.values(item)) { %>
-                <td>
-                  <% if (data.valuelink) { %>
-                    <a href="<%= data.valuelink %>" target="_blank"><%= data.value %></a>
+          <% } %>
+        </ul>
+      </div>
+      <% if (Array.isArray(inputData)) { %>
+        <!-- Rendering a list of things -->
+        <div class="data">
+          <h2>Data</h2>
+          <table id="dataTable" class="display">
+            <thead>
+              <tr>
+                <% for (const [label, data] of Object.entries(inputData[0])) { %>
+                  <th>
+                  <% if (data.labellink) { %>
+                    <a href="<%= data.labellink %>" target="_blank"><%= label %></a>
                   <% } else { %>
-                    <%= data.value %>
+                    <%= label %><br>
                   <% } %>
-                </td>
-              <% } %>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    </div>
-  <% } else { %>
-    <!-- Rendering a single transaction -->
-    <div class="data">
-      <h2>Data</h2>
-      <ul>
-        <% for (const [key, value] of Object.entries(inputData)) { %>
-          <li><strong><%= key %>:</strong>
-            <% if (typeof value === 'string' && value.startsWith('http')) { %>
-              <a href="<%= value %>" target="_blank"><%= value %></a>
-            <% } else { %>
-              <%= value %>
+                  </th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% inputData.forEach(item => { %>
+                <tr>
+                  <% for (const data of Object.values(item)) { %>
+                    <td>
+                      <% if (data.valuelink) { %>
+                        <a href="<%= data.valuelink %>" target="_blank"><%= data.value %></a>
+                      <% } else { %>
+                        <%= data.value %>
+                      <% } %>
+                    </td>
+                  <% } %>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <!-- Rendering a single transaction -->
+        <div class="data">
+          <h2>Data</h2>
+          <ul>
+            <% for (const [key, value] of Object.entries(inputData)) { %>
+              <li><strong><%= key %>:</strong>
+                <% if (typeof value === 'string' && value.startsWith('http')) { %>
+                  <a href="<%= value %>" target="_blank"><%= value %></a>
+                <% } else { %>
+                  <%= value %>
+                <% } %>
+              </li>
             <% } %>
-          </li>
-        <% } %>
+          </ul>
+        </div>
+      <% } %>
+    </section>
+    <section id="about" class="hidden">
+      <h1>About this tool</h1>
+      <p>The ODI CSVW Data Browser is a sophisticated tool that showcases the versatility and richness of data when combined with CSV on the Web (CSVW) metadata. This platform not only displays the original CSV file and its associated CSVW metadata but also the transformed JSON-LD output, all derived using the Open Data Institute&#39;s <a href="https://github.com/theodi/csvw-to-jsonld" target="_blank">csvw-to-jsonld converter</a>.</p>
+      <h4 id="understanding-csvw-and-its-benefits">Understanding CSVW and Its Benefits</h4>
+      <p>CSVW, or CSV on the Web, is a W3C standard that enriches CSV files with additional metadata. This metadata provides context, enabling a more nuanced understanding and interpretation of the data. CSVW facilitates greater clarity and interoperability for CSV files across different applications, making them more self-descriptive and versatile.</p>
+      <h4 id="the-conversion-process">The Conversion Process</h4>
+      <p>The ODI&#39;s <a href="https://github.com/theodi/csvw-to-jsonld" target="_blank">csvw-to-jsonld</a> converter processes CSV files alongside their CSVW metadata to produce JSON-LD (JavaScript Object Notation for Linked Data). JSON-LD is a powerful format for encoding Linked Data using JSON, offering a machine-readable and semantically rich way of presenting data.</p>
+      <h4 id="content-negotiation-and-format-options">Content Negotiation and Format Options</h4>
+      <p>This service offers content negotiation, allowing you to access the data in various formats: CSV, JSON, and JSON-LD. Each format has its own set of advantages and limitations:</p>
+      <ul>
+      <li><p><strong>CSV Format</strong>: </p>
+      <ul>
+      <li><strong>Benefits</strong>: Universally understood and widely used, especially in data analysis and spreadsheet applications. Ideal for tabular data representation.</li>
+      <li><strong>Limitations</strong>: Lacks the context to describe the meaning of data, can be ambiguous without accompanying documentation.</li>
       </ul>
-    </div>
-  <% } %>
-  <hr/>
-  <h2>Original CSV</h2>
-  <p><a href="/<%= sourcedir %>transactions.csv" download>Download CSV</a></p>
-  <div><%- renderCsvToTable(sourcedir + '/transactions.csv') %></div>
-
-  <h2>CSVW Metadata</h2>
-  <p><a href="/<%= sourcedir %>csvw.json" download>Download CSVW Metadata</a></p>
-  <p>To validate this file, copy the link address of the CSVW Metadata download and paste this into the JSON-LD Descriptor tab of <a href="https://csvw.opendata.cz/validation" target="_blank">https://csvw.opendata.cz/validation</a>.
-  <p><b>Note:</b> Validation will fail when the context has additional namespaces declared, as is the case with Example 3 and Example 4. You are looking at <b><%= sourcedir %></b>.</p>
-  <div class="code-box">
-    <pre><code class="language-json"><%- readFileContent(sourcedir + '/csvw.json') %></code></pre>
+      </li>
+      <li><p><strong>JSON Format</strong>:</p>
+      <ul>
+      <li><strong>Benefits</strong>: Easily parsed by web applications, more structured and hierarchical compared to CSV. It&#39;s well-suited for web APIs and applications.</li>
+      <li><strong>Limitations</strong>: Does not inherently support linking data or providing semantic context as JSON-LD does.</li>
+      </ul>
+      </li>
+      <li><p><strong>JSON-LD Format</strong>:</p>
+      <ul>
+      <li><strong>Benefits</strong>: Enhances JSON with the ability to represent linked data and semantic context. Ideal for data integration and interoperability in web environments.</li>
+      <li><strong>Limitations</strong>: May require more specialized knowledge to understand and use effectively compared to plain JSON or CSV.</li>
+      </ul>
+      </li>
+      </ul>
+      <h4 id="exploring-and-validating-the-data">Exploring and Validating the Data</h4>
+      <ul>
+      <li><strong>CSVW Validation</strong>: Validate CSVW metadata using the <a href="https://csvw.opendata.cz/validation">CSVW Validation Tool</a> for compliance with the standard.</li>
+      <li><strong>JSON-LD Playground</strong>: Explore JSON-LD data in the <a href="https://json-ld.org/playground/">JSON-LD Playground</a>, a tool that visualizes and interacts with linked data.</li>
+      </ul>
+      <h4 id="what-s-on-this-page">What&#39;s on This Page</h4>
+      <ul>
+      <li><strong>Original CSV File</strong>: The raw CSV data in its basic form.</li>
+      <li><strong>CSVW Metadata</strong>: The metadata describing the structure and semantics of the CSV data.</li>
+      <li><strong>Compiled JSON-LD</strong>: The output from the csvw-to-jsonld converter, presenting the data in a linked data format.</li>
+      </ul>
+      <p>The ODI CSVW Data Browser demonstrates how open data standards like CSVW and JSON-LD can transform the presentation and usability of data, enhancing both its accessibility and interoperability.</p>
+    </section>
+    <section id="examples" class="hidden">
+      <h2>Example data</h2>
+      <%- readFileContent(sourcedir + '/README.html') %>
+    </section>
+    <section id="originalCSV" class="hidden">
+      <h2>Original CSV</h2>
+      <p><a href="/<%= sourcedir %>transactions.csv" download>Download CSV</a></p>
+      <div><%- renderCsvToTable(sourcedir + '/transactions.csv') %></div>
+    </section>
+    <section id="csvwMetadata" class="hidden">
+      <h2>CSVW Metadata</h2>
+      <p><a href="/<%= sourcedir %>csvw.json" download>Download CSVW Metadata</a></p>
+      <p>To validate this file, copy the link address of the CSVW Metadata download and paste this into the JSON-LD Descriptor tab of <a href="https://csvw.opendata.cz/validation" target="_blank">https://csvw.opendata.cz/validation</a>.
+      <p><b>Note:</b> Validation will fail when the context has additional namespaces declared, as is the case with Example 3 and Example 4. You are looking at <b><%= sourcedir %></b>.</p>
+      <div class="code-box" class="hidden">
+        <pre><code class="language-json"><%- readFileContent(sourcedir + '/csvw.json') %></code></pre>
+      </div>
+    </section>
+    <section id="jsonLD" class="hidden">
+      <h2>Compiled JSON-LD Data</h2>
+      <p><a href="/<%= sourcedir %>data.jsonld" download>Download compiled JSON-LD</a></p>
+      <p><a href="https://json-ld.org/playground/#startTab=tab-table&json-ld=<%= base %><%= sourcedir %>data.jsonld" target="_blank">Click here</a> to browse this output in the JSON-LD playground.</p>
+      <div class="code-box">
+        <pre><code class="language-json"><%- readFileContent(sourcedir + '/data.jsonld') %></code></pre>
+      </div>
+    </section>
   </div>
-
-  <h2>Compiled JSON-LD Data</h2>
-  <p><a href="/<%= sourcedir %>data.jsonld" download>Download compiled JSON-LD</a></p>
-  <div class="code-box">
-    <pre><code class="language-json"><%- readFileContent(sourcedir + '/data.jsonld') %></code></pre>
-  </div>
-
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-json.min.js"></script>
@@ -137,6 +166,17 @@
     $(document).ready(function() {
       $('#dataTable').DataTable();
       Prism.highlightAll();
+      // JavaScript code
+      document.querySelectorAll('.toggle-link').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+        });
+      });
     });
   </script>
 </body>
