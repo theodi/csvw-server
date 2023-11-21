@@ -116,6 +116,8 @@
 
   <h2>CSVW Metadata</h2>
   <p><a href="/<%= sourcedir %>csvw.json" download>Download CSVW Metadata</a></p>
+  <p>To validate this file, copy the link address of the CSVW Metadata download and paste this into the JSON-LD Descriptor tab of <a href="https://csvw.opendata.cz/validation" target="_blank">https://csvw.opendata.cz/validation</a>.
+  <p><b>Note:</b> Validation will fail when the context has additional namespaces declared, as is the case with Example 3 and Example 4. You are looking at <b><%= sourcedir %></b>.</p>
   <div class="code-box">
     <pre><code class="language-json"><%- readFileContent(sourcedir + '/csvw.json') %></code></pre>
   </div>
