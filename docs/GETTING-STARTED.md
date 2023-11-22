@@ -4,8 +4,6 @@ The ODI CSVW Data Browser presents a series of examples, ranging from Example1 t
 
 The example you are currently viewing can be seen in the top right corner in the banner.
 
-**NOTE** The example loaded is the same for everyone, so if you change it, it changes for everyone! So keep an eye out if it changes.
-
 ### Starting with Example1
 
 - **Begin with Example1**: Start your exploration with Example1, which offers a basic application of CSVW. This example will introduce you to how to create a table-schema in CSVW to describe the structure of an existing CSV. At each stage click *View CSVW* and examine the structure of the metadata file, which is described at each stage.
