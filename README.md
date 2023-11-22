@@ -41,11 +41,14 @@ PORT=3000
 HOST=localhost
 BASE=http://example.com/
 DATADIR=data/example4/
+SECRET=MYSECRET
 ```
 
 The BASE configuration variable specifies the root URL of your server. It also acts as the base prefix for your JSON-LD/CSVW data. This should be set to the domain you intend to serve data from, ensuring consistency between the server's domain and the identifiers used in your data.
 
-DATADIR is the directory from which to load the jsonld from and should contain a file called data.jsonsld
+DATADIR is the default directory from which to load the jsonld from and should contain a file called data.jsonsld
+
+SECRET is the session secret for nodejs. Sessions hold the data the user is currently browsing and allows a single URI to have multiple versions of the same data.
 
 ## Usage
 
