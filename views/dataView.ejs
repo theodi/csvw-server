@@ -16,8 +16,8 @@
     <ul>
       <li class="arrow-icon"><a href="#data" class="toggle-link">Home</a></li>
       <li class="arrow-icon"><a href="#start" class="toggle-link">Getting started</a></li>
+      <li class="arrow-icon"><a href="#changeData" class="toggle-link">Switch example</a></li>
       <li class="arrow-icon"><a href="#about" class="toggle-link">About this tool</a></li>
-      <li class="arrow-icon"><a href="#examples" class="toggle-link">About this data</a></li>
       <li class="arrow-icon"><a href="#originalCSV" class="toggle-link">View CSV</a></li>
       <li class="arrow-icon"><a href="#csvwMetadata" class="toggle-link">View CSVW</a></li>
       <li class="arrow-icon"><a href="#jsonLD" class="toggle-link">View JSON-LD</a></li>
@@ -95,6 +95,27 @@
     <section id="start" class="hidden">
       <%- readFileContent('docs/GETTING-STARTED.html') %>
     </section>
+    <section id="changeData" class="hidden">
+      <h1>Change Data Example</h1>
+      <p>Currently loaded: <strong>
+        <%= sourcedir === 'data/example1/' ? 'Example 1' : '' %>
+        <%= sourcedir === 'data/example2/' ? 'Example 2' : '' %>
+        <%= sourcedir === 'data/example3/' ? 'Example 3' : '' %>
+        <%= sourcedir === 'data/example4/' ? 'Example 4' : '' %>
+      </strong></p>
+      <p>Select an example to load:</p>
+      <form action="#" method="get" id="exampleForm">
+        <select name="source">
+          <option value="example1" <%= sourcedir === 'data/example1/' ? 'selected' : '' %>>Example 1</option>
+          <option value="example2" <%= sourcedir === 'data/example2/' ? 'selected' : '' %>>Example 2</option>
+          <option value="example3" <%= sourcedir === 'data/example3/' ? 'selected' : '' %>>Example 3</option>
+          <option value="example4" <%= sourcedir === 'data/example4/' ? 'selected' : '' %>>Example 4</option>
+          <!-- Add more options for other examples as needed -->
+        </select>
+        <br/>
+        <input type="submit" value="Load Example">
+      </form>
+    </section>
     <section id="about" class="hidden">
       <%- readFileContent('docs/ABOUT.html') %>
     </section>
@@ -107,7 +128,8 @@
       <div><%- renderCsvToTable(sourcedir + '/transactions.csv') %></div>
     </section>
     <section id="csvwMetadata" class="hidden">
-      <h2>CSVW Metadata</h2>
+      <%- readFileContent(sourcedir + '/README.html') %>
+      <h1>CSVW Metadata - JSON File</h1>
       <p><a href="/<%= sourcedir %>csvw.json" download>Download CSVW Metadata</a></p>
       <p>To validate this file, copy the link address of the CSVW Metadata download and paste this into the JSON-LD Descriptor tab of <a href="https://csvw.opendata.cz/validation" target="_blank">https://csvw.opendata.cz/validation</a>.
       <p><b>Note:</b> Validation will fail when the context has additional namespaces declared, as is the case with Example 3 and Example 4. You are looking at <b><%= sourcedir %></b>.</p>

@@ -1,6 +1,25 @@
-<h1 id="getting-started">Getting started</h1>
-<p>The ODI CSVW Data Browser is a sophisticated tool that showcases the versatility and richness of data when combined with CSV on the Web (CSVW) metadata. <br/>This platform not only displays the original CSV file and its associated CSVW metadata but also the transformed JSON-LD output, all derived using the Open Data Institute's csvw-to-jsonld converter.</p>
-<h2 id="in-your-web-browser">In your web browser</h2>
+<h1 id="exploring-csvw-examples-from-basic-to-advanced">Exploring CSVW Examples: From Basic to Advanced</h1>
+<div style="max-width: 90%;">
+    <p>The ODI CSVW Data Browser presents a series of examples, ranging from Example1 to Example4, each illustrating the progressive enhancement of CSV files using CSV on the Web (CSVW) metadata. These examples provide a practical journey through the capabilities of CSVW, showing how plain CSV data can be transformed into rich, linked data.</p>
+    <p>The example you are currently viewing can be seen in the top right corner in the banner.</p>
+    <p><strong>NOTE</strong> The example loaded is the same for everyone, so if you change it, it changes for everyone! So keep an eye out if it changes.</p>
+</div>
+<h2 id="starting-with-example1">Starting with Example1</h2>
+<ul>
+<li><strong>Begin with Example1</strong>: Start your exploration with Example1, which offers a basic application of CSVW. This example will introduce you to how to create a table-schema in CSVW to describe the structure of an existing CSV. At each stage click <em>View CSVW</em> and examine the structure of the metadata file, which is described at each stage. </li>
+<li><strong>Explore the data</strong>: At each stage explore the data via your web browser and also via content negotiation and observe how the data changes depending on the complexity of the CSVW metadata.</li>
+</ul>
+<h2 id="progressing-through-the-examples">Progressing through the Examples</h2>
+<ul>
+<li><strong>Move to Subsequent Examples</strong>: After reviewing Example1, click <strong>Switch example</strong> and select Example2, Example3, and finally Example4. With each step, you&#39;ll observe the introduction of more advanced CSVW features, each of which is detailed on the <em>View CSVW</em> page.</li>
+<li><strong>Understand the Power of CSVW</strong>: As you progress, you&#39;ll see how CSVW transforms a simple CSV into a dataset that&#39;s not only self-describing but also linked and ready for integration with other web resources.</li>
+</ul>
+<h2 id="realizing-the-full-potential">Realizing the Full Potential</h2>
+<ul>
+<li><strong>Full Linked Data Transformation</strong>: By the time you reach Example4, you&#39;ll witness the full potential of CSVW. The plain CSV data from Example1 evolves into a comprehensive linked data set, showcasing the true power of CSVW in enhancing data interoperability and usability.</li>
+<li><strong>Utilize Tools for Exploration</strong>: During the early examples you will be able to use tools like the <a href="https://csvw.opendata.cz/validation">CSVW Validation Tool</a> to understand how well the CSVW metadata adheres to the CSVW standard. For the later examples, use tools like the <a href="https://json-ld.org/playground/">JSON-LD Playground</a> to interact with the JSON-LD output via the <em>View JSON-LD</em> page and discover what linked data has been created.</li>
+</ul>
+<h2 id="exploring-the-data-web-browser-">Exploring the data (web browser)</h2>
 <ol>
 <li><p><strong>Access the Transaction List</strong>: Open your web browser and go to <a href="https://csvw-demo.learndata.info/transactions/">https://csvw-demo.learndata.info/transactions/</a>. Here, you will see a list of all available transactions.</p>
 </li>
@@ -17,16 +36,31 @@
 </ul>
 </li>
 </ol>
+<h2 id="other-pages">Other pages</h2>
+<p><strong>About this tool</strong>: Describes the tool, how it works and how it converts CSV data into full linked data via the CSV on the Web (CSVW) standard.</p>
+<p><strong>View CSV</strong>: View the original CSV file that has been translated into linked data via the CSVW standard.</p>
+<p><strong>View CSVW</strong>: View the CSVW metadata that enables the translation into linked data as well as a description of the configuration it contains.</p>
+<p><strong>View JSON-LD</strong>: View the resulting linked data that has been generated from the original CSV and CSVW metadata.</p>
 <hr>
-<h1 id="using-httpie-io-app-to-fetch-data-in-different-formats-and-languages">Using HTTPie.io/app to Fetch Data in Different Formats and Languages</h1>
-<p>HTTPie.io/app is a web-based service that allows you to make HTTP requests directly from your browser.</p>
+<h2 id="exploring-data-in-different-formats-via-content-negiation-">Exploring data in different formats (via content negiation)</h2>
+<p>The real power of linked data is only evident once you start to discover the alternative formats for data. While these have been shown in the web interface, machines prefer to use a technique called content negotiation to access raw data, rather than web pages. </p>
+<p>You can use a service like HTTPie.io/app to make HTTP requests directly from your browser.</p>
 <ol>
 <li><p><strong>Access HTTPie.io/app</strong>: Open your web browser and go to <a href="https://httpie.io/app">https://httpie.io/app</a>.</p>
 </li>
 <li><p><strong>Making a GET Request</strong>:</p>
 <ul>
 <li>In the URL field, enter the URL of the transaction you want to view, e.g., <code>https://csvw-demo.learndata.info/transactions/1</code> (single transaction) or <code>https://csvw-demo.learndata.info/transactions/</code> (all transactions).</li>
+<li>You need to specify the example dataset (1,2,3,4) that you wish to view, click on the &quot;Params&quot; tab.</li>
+<li>Add a new param with <code>Name</code> set to <code>source</code> and <code>value</code> set to the desired example, e.g. <code>example2</code>.</li>
 <li>Click on the &quot;Send&quot; button to make the request.</li>
+<li>The response will be the human readable web page (the default)</li>
+</ul>
+</li>
+<li><p><strong>Viewing the Response</strong>:</p>
+<ul>
+<li>The response will be displayed in the lower part of the screen.</li>
+<li>You can view the status code, headers, and response body.</li>
 </ul>
 </li>
 <li><p><strong>Specifying Accept-Language</strong>:</p>
@@ -47,18 +81,13 @@
 <li>After setting the header, click &quot;Send&quot; to make the request.</li>
 </ul>
 </li>
-<li><p><strong>Viewing the Response</strong>:</p>
+<li><p><strong>Simplifying CSV and JSON output</strong>:</p>
 <ul>
-<li>The response will be displayed in the lower part of the screen.</li>
-<li>You can view the status code, headers, and response body.</li>
+<li>As the examples get more complex, the CSV and JSON outputs will increasingly include more URIs in both key/column titles as well as values.</li>
+<li>A simplified version can be output by parsing a <code>simple</code> parameter with a value of <code>true</code>.</li>
+<li>To set this, in httpie.io click on the &quot;Params&quot; tab.</li>
+<li>Add a new param with <code>Name</code> set to <code>simple</code> and <code>value</code> set to <code>true</code>.</li>
 </ul>
 </li>
 </ol>
 <p>By following these steps, you can easily view and fetch transaction data in various formats and languages using HTTPie.io/app directly from your web browser.</p>
-<hr>
-<h2 id="other-pages">Other pages</h2>
-<p><strong>About this tool</strong>: Describes the tool, how it works and how it converts CSV data into full linked data via the CSV on the Web (CSVW) standard.</p>
-<p><strong>About this data</strong>: Provides a description of how the data you are looking at has been generated. Note that the tool uses many examples with increased complexity. The current version you are looking at is highlighted by the banner in the top right of the screen.</p>
-<p><strong>View CSV</strong>: View the original CSV file that has been translated into linked data via the CSVW standard.</p>
-<p><strong>View CSVW</strong>: View the CSVW metadata that enables the translation into linked data.</p>
-<p><strong>View JSON-LD</strong>: View the resulting linked data that has been generated from the original CSV and CSVW metadata.</p>

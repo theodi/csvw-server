@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const Negotiator = require('negotiator');
 const { stringify } = require('csv-stringify/sync');
@@ -16,6 +17,14 @@ app.use('/docs', express.static('docs'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
+
+// Use the session middleware
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+}));
+
 const base = process.env.BASE;
 var sourcedir = process.env.DATADIR;
 let jsonData = {};
@@ -29,40 +38,55 @@ app.locals.readFileContent = function(filePath) {
   }
 };
 
-function loadDataFromDirectory(directory) {
+function loadJsonData(directory) {
   try {
     const dataPath = path.join(directory, 'data.jsonld');
     if (fs.existsSync(dataPath)) {
-      jsonData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-      console.log(`Data loaded from ${dataPath}`);
+      return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     } else {
       throw new Error(`data.jsonld not found in ${directory}`);
     }
   } catch (error) {
     console.error(`Error loading data: ${error.message}`);
-    jsonData = null;
+    return null;
   }
 }
 
-// Initial data load
-loadDataFromDirectory(sourcedir);
-
 app.use((req, res, next) => {
-  if (req.query.sourceDir) {
-    const potentialDir = `data/${req.query.sourceDir}/`;
+  if (req.query.source) {
+    const requestedDir = `data/${req.query.source}/`;
 
-    if (fs.existsSync(potentialDir)) {
-      sourcedir = potentialDir;
+    if (fs.existsSync(requestedDir)) {
+      const newData = loadJsonData(requestedDir);
+      if (newData) {
+        // Store the selected data in the user's session
+        req.session.selectedData = newData;
+        req.session.sourceDir = requestedDir;
+        console.log(`Data loaded from ${requestedDir}`);
+      } else {
+        console.warn(`Unable to load data from ${requestedDir}, using the current data.`);
+      }
     } else {
-      console.warn(`Requested directory ${potentialDir} does not exist, using default data.`);
-      sourcedir = "data/";
+      console.warn(`Requested directory ${requestedDir} does not exist, using the current data.`);
     }
-    loadDataFromDirectory(sourcedir);
 
     // Remove sourceDir query parameter and redirect
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-    parsedUrl.searchParams.delete('sourceDir');
+    parsedUrl.searchParams.delete('source');
     return res.redirect(303, parsedUrl.pathname + parsedUrl.search);
+  } else {
+    // If sourceDir is not defined and req.session.selectedData is not already defined, load "example1" data directory by default
+    if (!req.session.selectedData) {
+      const defaultDir = process.env.DATADIR || 'data/example1/';
+      const defaultData = loadJsonData(defaultDir);
+      if (defaultData) {
+        req.session.selectedData = defaultData;
+        req.session.sourceDir = defaultDir;
+        console.log(`Default data loaded from ${defaultDir}`);
+      } else {
+        console.warn(`Unable to load default data from ${defaultDir}.`);
+      }
+    }
   }
   next();
 });
@@ -79,6 +103,7 @@ function getMetadataFromGraph(jsonLdGraph) {
 
 
 function sendData(data,req,res) {
+  const jsonData = req.session.selectedData;
   const negotiator = new Negotiator(req);
   const preferredMediaType = negotiator.mediaType(['text/html', 'application/ld+json', 'text/csv', 'application/json']);
   const language = negotiator.language(['en', 'fr']) || 'en';
@@ -103,12 +128,14 @@ function sendData(data,req,res) {
       return res.json(jsonLDResponse);
     case 'text/html':
       data = updateIdsWithBase(data,process.env.BASE);
-      res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language)), metadata, objectToString, sourcedir: sourcedir, base: process.env.BASE, renderCsvToTable});
+      res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language,jsonData)), metadata, objectToString, sourcedir: req.session.sourceDir, base: process.env.BASE, renderCsvToTable});
       break;
     case 'text/csv':
       data = updateIdsWithBase(data,process.env.BASE);
-      data = replacePrefixes(data);
-      labeledData = data.map(t => getLabelledData(t, language));
+      if (!req.query.simple) {
+        data = replacePrefixes(data);
+      }
+      labeledData = data.map(t => getLabelledData(t, language,jsonData));
       try {
         // Making sure labeledData is always an array
         const dataArray = Array.isArray(labeledData) ? labeledData : [labeledData];
@@ -118,7 +145,7 @@ function sendData(data,req,res) {
           for (const [key, value] of Object.entries(item)) {
             if (typeof value === 'object' && value !== null) {
               dataObject[key] = value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value;
-              tempObject = getLabelledData(value,language);
+              tempObject = getLabelledData(value,language,jsonData);
               for (const tempKey in tempObject) {
                 if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' && tempKey != "@value" && tempKey != 'schema:value' && tempKey !='http://schema.org/value') {
                   dataObject[tempKey] = tempObject[tempKey];
@@ -148,8 +175,10 @@ function sendData(data,req,res) {
       break;
     case 'application/json':
       data = updateIdsWithBase(data,process.env.BASE);
-      data = replacePrefixes(data);
-      labeledData = data.map(t => getLabelledData(t, language));
+      if (!req.query.simple) {
+        data = replacePrefixes(data);
+      }
+      labeledData = data.map(t => getLabelledData(t, language,jsonData));
       res.json(labeledData);
       break;
     default:
@@ -213,7 +242,7 @@ function expandURI(prefix, context) {
   return prefix; // Return the original prefix if not found in context
 }
 
-function getLabelledDataWithURIs(data, language) {
+function getLabelledDataWithURIs(data, language,jsonData) {
   // Map the data to labels and values
   const context = {
     "schema": "http://schema.org/",
@@ -252,7 +281,7 @@ function getLabelledDataWithURIs(data, language) {
       } else if ('@id' in data[key]) {
         uri = data[key]['@id'];
         if (uri.startsWith(data['@id'] + "#")) {
-          tempObject = getLabelledDataWithURIs(value,language);
+          tempObject = getLabelledDataWithURIs(value,language,jsonData);
           for (const tempKey in tempObject) {
             if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != '@value' && tempKey != 'schema:value') {
               labeledData[tempKey] = tempObject[tempKey];
@@ -286,7 +315,7 @@ function getLabelledDataWithURIs(data, language) {
   return labeledData;
 }
 
-function getLabelledData(data, language) {
+function getLabelledData(data, language,jsonData) {
   // Map the data to labels and values
   const context = jsonData['@context'];
   const labeledData = {};
@@ -310,7 +339,7 @@ function getLabelledData(data, language) {
       } else if ('@id' in data[key]) {
         uri = data[key]['@id'];
         if (uri.startsWith(data['@id'] + "#")) {
-          value = getLabelledData(data[key],language);
+          value = getLabelledData(data[key],language,jsonData);
         } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
@@ -380,6 +409,7 @@ function updateIdsWithBase(data, baseUrl) {
 }
 
 app.get('*', async (req, res) => {
+  jsonData = req.session.selectedData;
   const nodes = jsonData['@graph'] || [];
   let requesturi = 'transactions/';
   requesturi = req.path.slice(1);
