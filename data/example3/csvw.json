@@ -1,110 +1,120 @@
 {
-    "@context": [
+  "@context": [
       "http://www.w3.org/ns/csvw",
       {
-      "@language": "en",
-      "@base": "https://csvw-demo.learndata.info/",
-      "pay": "http://reference.data.gov.uk/def/payment#"
+          "@language": "en",
+          "@base": "https://csvw-demo.learndata.info/",
+          "pay": "http://reference.data.gov.uk/def/payment#"
       }
-    ],
-    "url": "https://csvw-demo.learndata.info/data/example3/transactions.csv",
-    "dc:title": "Financial Transactions",
-    "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
-    "dc:publisher": {
-        "schema:name": "FinCorp Ltd.",
-        "schema:url": {"@id": "http://fincorpltd.example.com" }
-    },
-    "dcat:keyword": ["transactions", "financial"],
-    "dc:license": {"@id": "http://opendefinition.org/licenses/cc-by/"},
-    "dc:modified": {"@value": "2023-10-25", "@type": "xsd:date"},
-    "tableSchema": {
+  ],
+  "url": "https://csvw-demo.learndata.info/data/example3/transactions.csv",
+  "dc:title": "Financial Transactions",
+  "dc:description": "A log of financial transactions carried out between CompanyA and CompanyB in 2023.",
+  "dc:publisher": {
+      "schema:name": "FinCorp Ltd.",
+      "schema:url": {
+          "@id": "http://fincorpltd.example.com"
+      }
+  },
+  "dcat:keyword": [
+      "transactions",
+      "financial"
+  ],
+  "dc:license": {
+      "@id": "http://opendefinition.org/licenses/cc-by/"
+  },
+  "dc:modified": {
+      "@value": "2023-10-25",
+      "@type": "xsd:date"
+  },
+  "tableSchema": {
       "columns": [
-        {
-          "name": "transaction_id",
-          "titles": {
-            "fr": "ID de Transaction",
-            "en": "Transaction ID"
+          {
+              "name": "transaction_id",
+              "titles": {
+                  "fr": "ID de Transaction",
+                  "en": "Transaction ID"
+              },
+              "datatype": "integer",
+              "propertyUrl": "schema:identifier",
+              "required": true
           },
-          "datatype": "integer",
-          "propertyUrl": "schema:identifier",
-          "required": true
-        },
-        {
-          "name": "date",
-          "titles": {
-            "fr": "Date",
-            "en": "Date"
+          {
+              "name": "date",
+              "titles": {
+                  "fr": "Date",
+                  "en": "Date"
+              },
+              "datatype": {
+                  "base": "date",
+                  "minInclusive": "2023-01-01",
+                  "maxInclusive": "2023-12-31"
+              },
+              "propertyUrl": "schema:date",
+              "required": true
           },
-          "datatype": {
-            "base": "date",
-            "minInclusive": "2023-01-01",
-            "maxInclusive": "2023-12-31"
+          {
+              "name": "payer",
+              "titles": {
+                  "fr": "Payeur",
+                  "en": "Payer"
+              },
+              "datatype": "string",
+              "propertyUrl": "payer",
+              "required": true
           },
-          "propertyUrl": "schema:date",
-          "required": true
-        },
-        {
-          "name": "payer",
-          "titles": {
-             "fr": "Payeur",
-             "en": "Payer"
+          {
+              "name": "payee",
+              "titles": {
+                  "fr": "Bénéficiaire",
+                  "en": "Payee"
+              },
+              "datatype": "string",
+              "propertyUrl": "payee",
+              "required": true
           },
-          "datatype": "string",
-          "propertyUrl": "payer",
-          "required": true
-        },
-        {
-          "name": "payee",
-          "titles": {
-            "fr": "Bénéficiaire",
-            "en": "Payee"
+          {
+              "name": "description",
+              "titles": "Description",
+              "datatype": "string",
+              "propertyUrl": "schema:description",
+              "required": true
           },
-          "datatype": "string",
-          "propertyUrl": "payee",
-          "required": true
-        },
-        {
-          "name": "description",
-          "titles": "Description",
-          "datatype": "string",
-          "propertyUrl": "schema:description",
-          "required": true
-        },
-        {
-          "name": "amount",
-          "titles": {
-            "fr": "Montant (USD)",
-            "en": "Amount (USD)"
+          {
+              "name": "amount",
+              "titles": {
+                  "fr": "Montant (USD)",
+                  "en": "Amount (USD)"
+              },
+              "datatype": "decimal",
+              "required": true,
+              "suppressOutput": true
           },
-          "datatype": "decimal",
-          "required": true,
-          "suppressOutput": true
-        },
-        {
-          "virtual": true,
-          "propertyUrl": "schema:amount",
-          "valueUrl": "transactions/{transaction_id}#amount"
-        },
-        {
-          "virtual": true,
-          "aboutUrl": "transactions/{transaction_id}#amount",
-          "propertyUrl": "rdf:type",
-          "valueUrl": "schema:MonetaryAmount"
-        },
-        {
-          "virtual": true,
-          "aboutUrl": "transactions/{transaction_id}#amount",
-          "propertyUrl": "schema:value",
-          "valueUrl": "{amount}"
-        },
-        {
-          "virtual": true,
-          "aboutUrl": "transactions/{transaction_id}#amount",
-          "propertyUrl": "schema:currency",
-          "valueUrl": "USD"
-        }
+          {
+              "virtual": true,
+              "propertyUrl": "schema:amount",
+              "valueUrl": "transactions/{transaction_id}#amount"
+          },
+          {
+              "virtual": true,
+              "aboutUrl": "transactions/{transaction_id}#amount",
+              "propertyUrl": "rdf:type",
+              "valueUrl": "schema:MonetaryAmount"
+          },
+          {
+              "virtual": true,
+              "aboutUrl": "transactions/{transaction_id}#amount",
+              "propertyUrl": "schema:value",
+              "valueUrl": "{amount}"
+          },
+          {
+              "virtual": true,
+              "aboutUrl": "transactions/{transaction_id}#amount",
+              "propertyUrl": "schema:currency",
+              "valueUrl": "USD"
+          }
       ],
       "primaryKey": "transaction_id",
       "aboutUrl": "transactions/{transaction_id}"
-    }
   }
+}
