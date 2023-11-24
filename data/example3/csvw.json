@@ -60,7 +60,7 @@
                     "en": "Payer"
                 },
                 "datatype": "string",
-                "propertyUrl": "payer",
+                "propertyUrl": "pay:payer",
                 "required": true
             },
             {
@@ -70,7 +70,7 @@
                     "en": "Payee"
                 },
                 "datatype": "string",
-                "propertyUrl": "payee",
+                "propertyUrl": "pay:payee",
                 "required": true
             },
             {

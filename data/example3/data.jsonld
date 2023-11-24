@@ -17,8 +17,8 @@
         "@value": "2023-01-15",
         "@type": "xsd:date"
       },
-      "payer": "CompanyA",
-      "payee": "CompanyB",
+      "pay:payer": "CompanyA",
+      "pay:payee": "CompanyB",
       "schema:description": "Payment for services",
       "@id": "transactions/1",
       "schema:amount": {
@@ -37,8 +37,8 @@
         "@value": "2023-01-20",
         "@type": "xsd:date"
       },
-      "payer": "CompanyB",
-      "payee": "CompanyA",
+      "pay:payer": "CompanyB",
+      "pay:payee": "CompanyA",
       "schema:description": "Refund for overpayment",
       "@id": "transactions/2",
       "schema:amount": {
@@ -57,8 +57,8 @@
         "@value": "2023-02-01",
         "@type": "xsd:date"
       },
-      "payer": "CompanyA",
-      "payee": "CompanyB",
+      "pay:payer": "CompanyA",
+      "pay:payee": "CompanyB",
       "schema:description": "Monthly subscription fee",
       "@id": "transactions/3",
       "schema:amount": {
@@ -114,8 +114,8 @@
       }
     ]
   },
-  "payer": {
-    "@id": "payer",
+  "pay:payer": {
+    "@id": "pay:payer",
     "rdfs:label": [
       {
         "@value": "Payeur",
@@ -127,8 +127,8 @@
       }
     ]
   },
-  "payee": {
-    "@id": "payee",
+  "pay:payee": {
+    "@id": "pay:payee",
     "rdfs:label": [
       {
         "@value": "Bénéficiaire",

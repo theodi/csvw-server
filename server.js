@@ -10,6 +10,7 @@ const cors = require('cors');
 require('dotenv').config();
 app.use(cors());
 
+app.use('/diffs', express.static('diffs'));
 app.use('/data', express.static('data'));
 app.use('/style', express.static('style'));
 app.use('/img', express.static('img'));
