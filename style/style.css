@@ -108,11 +108,11 @@
     top: 3em;
     right: -7em;
     margin: 1em;
-    background: white;
+    background: rgb(33, 37, 41);
     width: 365px;
     padding-top: 6px;
     padding-bottom: 6px;
-    color: black;
+    color: white;
     text-align: center;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);

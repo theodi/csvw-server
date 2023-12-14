@@ -26,7 +26,7 @@
   <div class="main-content">
     <section id="data">
       <h1>ODI CSVW data browser</h1>
-      <p>On this page you will find metadata and data relating to the URI you reqeusted in your address bar.</p>
+      <p>On this page you will find metadata and data relating to the URI you requested in your address bar.</p>
       <p>To discover more about this tool, click <a href="#start" class="toggle-link">Getting started</a> in the menu.</p>
       <div class="metadata">
         <h2>Metadata</h2>
@@ -140,7 +140,6 @@
         const exampleNumber = parseInt(sourcedir.match(/\d+/)[0], 10);
         const previous = exampleNumber - 1;
         const diffUrl = "/diffs/?left=" + base + "data/example"+previous+"/csvw.json&right=" + base + "data/example"+exampleNumber+"/csvw.json";
-        console.log(diffUrl);
         if (exampleNumber > 1) { %>
         <h1>CSV Metadata - Differences from Example <%- previous %></h1>
         <div class="diff-box" id="diff-box">
@@ -164,6 +163,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-json.min.js"></script>
   <script>
     $(document).ready(function() {
+      detectColorScheme();
       $('#dataTable').DataTable();
       Prism.highlightAll();
       // JavaScript code
@@ -178,6 +178,14 @@
         });
       });
     });
+
+    function detectColorScheme() {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        document.getElementsByClassName('banner')[0].style.background = 'white';
+        document.getElementsByClassName('banner')[0].style.color = 'black';
+      }
+    }
   </script>
 </body>
 </html>
