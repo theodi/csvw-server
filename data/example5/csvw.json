@@ -1,0 +1,173 @@
+{
+    "@context": [
+        "http://www.w3.org/ns/csvw",
+        {
+            "@language": "en",
+            "@base": "https://csvw-demo.learndata.info/",
+            "pay": "http://reference.data.gov.uk/def/payment#"
+        }
+    ],
+    "url": "transactions.csv",
+    "dc:title": "Financial Transactions",
+    "dc:description": "A log of financial transactions related to a fictitious water company.",
+    "dc:publisher": {
+        "schema:name": "UU WAter.",
+        "schema:url": {
+            "@id": "http://UUWater.example.com"
+        }
+    },
+    "dcat:keyword": [
+        "transactions",
+        "financial"
+    ],
+    "dc:license": {
+        "@id": "http://opendefinition.org/licenses/cc-by/"
+    },
+    "dc:modified": {
+        "@value": "2024-01-15",
+        "@type": "xsd:date"
+    },
+    "tableSchema": {
+        "columns": [
+            {
+                "name": "transaction_id",
+                "titles": {
+                    "fr": "ID de Transaction",
+                    "en": "Transaction ID"
+                },
+                "datatype": "integer",
+                "propertyUrl": "schema:identifier",
+                "required": true
+            },
+            {
+                "name": "date",
+                "titles": {
+                    "fr": "Date",
+                    "en": "Date"
+                },
+                "datatype": {
+                    "base": "date",
+                    "minInclusive": "2023-01-01",
+                    "maxInclusive": "2023-12-31"
+                },
+                "propertyUrl": "schema:date",
+                "required": true
+            },
+            {
+                "name": "payer",
+                "titles": {
+                    "fr": "Payeur",
+                    "en": "Payer"
+                },
+                "datatype": "string",
+                "propertyUrl": "pay:payer",
+                "valueUrl": "entity/{payer}",
+                "required": true
+            },
+            {
+                "name": "payee",
+                "titles": {
+                    "fr": "Bénéficiaire",
+                    "en": "Payee"
+                },
+                "datatype": "string",
+                "propertyUrl": "pay:payee",
+                "valueUrl": "entity/{payee}",
+                "required": true
+            },
+            {
+                "name": "description",
+                "titles": "Description",
+                "datatype": "string",
+                "propertyUrl": "schema:description",
+                "required": true
+            },
+            {
+                "name": "invoice_id",
+                "titles": {
+                    "fr": "Identifiant de facture",
+                    "en": "Bill ID"
+                },
+                "datatype": "integer",
+                "required": true,
+                "suppressOutput": true
+            },
+            {
+                "name": "amount",
+                "titles": {
+                    "fr": "Montant (GBP)",
+                    "en": "Amount (GBP)"
+                },
+                "datatype": "decimal",
+                "required": true,
+                "suppressOutput": true
+            },
+            {
+                "virtual": true,
+                "propertyUrl": "schema:referencesOrder",
+                "valueUrl": "invoice/{invoice_id}"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}",
+                "propertyUrl": "rdf:type",
+                "valueUrl": "schema:Invoice"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}",
+                "propertyUrl": "schema:identifier",
+                "valueUrl": "{invoice_id}"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}",
+                "propertyUrl": "schema:totalPaymentDue",
+                "valueUrl": "invoice/{invoice_id}/#totalPaymentDue"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}/#totalPaymentDue",
+                "propertyUrl": "rdf:type",
+                "valueUrl": "schema:MonetaryAmount"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}/#totalPaymentDue",
+                "propertyUrl": "schema:value",
+                "valueUrl": "{amount}"
+            },
+            {
+                "virtual": true,
+                "propertyUrl": "schema:amount",
+                "valueUrl": "transactions/{transaction_id}#amount"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "transactions/{transaction_id}#amount",
+                "propertyUrl": "rdf:type",
+                "valueUrl": "schema:MonetaryAmount"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "transactions/{transaction_id}#amount",
+                "propertyUrl": "schema:value",
+                "valueUrl": "{amount}"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "transactions/{transaction_id}#amount",
+                "propertyUrl": "schema:currency",
+                "valueUrl": "GBP"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "transactions/{transaction_id}",
+                "propertyUrl": "rdf:type",
+                "valueUrl": "pay:Payment"
+            }
+        ],
+        "primaryKey": "transaction_id",
+        "aboutUrl": "transactions/{transaction_id}"
+    }
+}

@@ -1,0 +1,185 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/csvw",
+    {
+      "@language": "en",
+      "@base": "https://csvw-demo.learndata.info/",
+      "pay": "http://reference.data.gov.uk/def/payment#"
+    }
+  ],
+  "@graph": [
+    {
+      "schema:identifier": {
+        "@value": 1,
+        "@type": "xsd:integer"
+      },
+      "schema:date": {
+        "@value": "2023-01-15",
+        "@type": "xsd:date"
+      },
+      "pay:payer": {
+        "@id": "entity/PersonA"
+      },
+      "pay:payee": {
+        "@id": "entity/UUWater"
+      },
+      "schema:description": "Payment for services",
+      "@id": "transactions/1",
+      "schema:referencesOrder": {
+        "@id": "invoice/126532",
+        "rdf:type": "schema:Invoice",
+        "schema:identifier": "126532",
+        "schema:totalPaymentDue": "invoice/126532/#totalPaymentDue"
+      },
+      "schema:amount": {
+        "@id": "transactions/1#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "5000",
+        "schema:currency": "GBP"
+      },
+      "rdf:type": "pay:Payment"
+    },
+    {
+      "schema:identifier": {
+        "@value": 2,
+        "@type": "xsd:integer"
+      },
+      "schema:date": {
+        "@value": "2023-01-20",
+        "@type": "xsd:date"
+      },
+      "pay:payer": {
+        "@id": "entity/UU Water"
+      },
+      "pay:payee": {
+        "@id": "entity/PersonB"
+      },
+      "schema:description": "Refund for overpayment",
+      "@id": "transactions/2",
+      "schema:referencesOrder": {
+        "@id": "invoice/",
+        "rdf:type": "schema:Invoice",
+        "schema:identifier": "",
+        "schema:totalPaymentDue": "invoice//#totalPaymentDue"
+      },
+      "schema:amount": {
+        "@id": "transactions/2#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "250",
+        "schema:currency": "GBP"
+      },
+      "rdf:type": "pay:Payment"
+    },
+    {
+      "schema:identifier": {
+        "@value": 3,
+        "@type": "xsd:integer"
+      },
+      "schema:date": {
+        "@value": "2023-02-01",
+        "@type": "xsd:date"
+      },
+      "pay:payer": {
+        "@id": "entity/PersonC"
+      },
+      "pay:payee": {
+        "@id": "entity/UUWater"
+      },
+      "schema:description": "Monthly subscription fee",
+      "@id": "transactions/3",
+      "schema:referencesOrder": {
+        "@id": "invoice/235752",
+        "rdf:type": "schema:Invoice",
+        "schema:identifier": "235752",
+        "schema:totalPaymentDue": "invoice/235752/#totalPaymentDue"
+      },
+      "schema:amount": {
+        "@id": "transactions/3#amount",
+        "rdf:type": "schema:MonetaryAmount",
+        "schema:value": "1000",
+        "schema:currency": "GBP"
+      },
+      "rdf:type": "pay:Payment"
+    }
+  ],
+  "dc:title": "Financial Transactions",
+  "dc:description": "A log of financial transactions related to a fictitious water company.",
+  "dc:publisher": {
+    "schema:name": "UU WAter.",
+    "schema:url": {
+      "@id": "http://UUWater.example.com"
+    }
+  },
+  "dcat:keyword": [
+    "transactions",
+    "financial"
+  ],
+  "dc:license": {
+    "@id": "http://opendefinition.org/licenses/cc-by/"
+  },
+  "dc:modified": {
+    "@value": "2024-01-15",
+    "@type": "xsd:date"
+  },
+  "schema:identifier": {
+    "@id": "schema:identifier",
+    "rdfs:label": [
+      {
+        "@value": "ID de Transaction",
+        "@language": "fr"
+      },
+      {
+        "@value": "Transaction ID",
+        "@language": "en"
+      }
+    ]
+  },
+  "schema:date": {
+    "@id": "schema:date",
+    "rdfs:label": [
+      {
+        "@value": "Date",
+        "@language": "fr"
+      },
+      {
+        "@value": "Date",
+        "@language": "en"
+      }
+    ]
+  },
+  "pay:payer": {
+    "@id": "pay:payer",
+    "rdfs:label": [
+      {
+        "@value": "Payeur",
+        "@language": "fr"
+      },
+      {
+        "@value": "Payer",
+        "@language": "en"
+      }
+    ]
+  },
+  "pay:payee": {
+    "@id": "pay:payee",
+    "rdfs:label": [
+      {
+        "@value": "Bénéficiaire",
+        "@language": "fr"
+      },
+      {
+        "@value": "Payee",
+        "@language": "en"
+      }
+    ]
+  },
+  "schema:description": {
+    "@id": "schema:description",
+    "rdfs:label": [
+      {
+        "@value": "Description",
+        "@language": "en"
+      }
+    ]
+  }
+}

@@ -145,13 +145,15 @@ function sendData(data,req,res) {
           const dataObject = {};
           for (const [key, value] of Object.entries(item)) {
             if (typeof value === 'object' && value !== null) {
-              dataObject[key] = value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value;
+              dataObject[key] = value['@id'] || value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value['schema:identifier'];
+              /*
               tempObject = getLabelledData(value,language,jsonData);
               for (const tempKey in tempObject) {
                 if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' && tempKey != "@value" && tempKey != 'schema:value' && tempKey !='http://schema.org/value') {
                   dataObject[tempKey] = tempObject[tempKey];
                 }
               }
+              */
             } else {
               dataObject[key] = value;
             }
@@ -164,6 +166,7 @@ function sendData(data,req,res) {
         const output = stringify(csvData, {
           header: true,
           columns: csvHeaders,
+          delimiter: ', '
         });
         const filename = req.path.replace(/\//g, '');
         res.setHeader('Content-Type', 'text/csv');
@@ -281,14 +284,12 @@ function getLabelledDataWithURIs(data, language,jsonData) {
         value = data[key]['@value'];
       } else if ('@id' in data[key]) {
         uri = data[key]['@id'];
-        if (uri.startsWith(data['@id'] + "#")) {
-          tempObject = getLabelledDataWithURIs(value,language,jsonData);
-          for (const tempKey in tempObject) {
-            if (tempKey != '@id' && tempKey != 'rdf:type' && tempKey != '@value' && tempKey != 'schema:value') {
-              labeledData[tempKey] = tempObject[tempKey];
-            }
-          }
-          value = value['@value'] || value['schema:value'] || value;
+        if (Object.keys(getLabelledData(data[key],language,jsonData)).length > 1) {
+          //nested
+          search = data[key];
+          value = search['schema:value'] || search['http://schema.org/value'] || search['schema:identifier'] || search['@id'];
+          //simple
+          //value = uri;
         } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
@@ -339,8 +340,13 @@ function getLabelledData(data, language,jsonData) {
         value = data[key]['@value'];
       } else if ('@id' in data[key]) {
         uri = data[key]['@id'];
-        if (uri.startsWith(data['@id'] + "#")) {
-          value = getLabelledData(data[key],language,jsonData);
+        //if (uri.startsWith(data['@id'] + "#")) {
+        if (Object.keys(getLabelledData(data[key],language,jsonData)).length > 1) {
+            value = getLabelledData(data[key],language,jsonData);
+            //nested
+            value = data[key];
+            //simple
+            //value = uri;
         } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
           const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
           value = labelObject ? labelObject['@value'] : uri;
