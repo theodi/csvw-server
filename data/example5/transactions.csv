@@ -1,4 +1,4 @@
 Transaction ID,Date,Payer,Payee,Description,Bill ID,Amount (GBP)
 1,2023-01-15,PersonA,UUWater,Payment for services,126532,5000
-2,2023-01-20,UU Water,PersonB,Refund for overpayment,,250
+2,2023-01-20,UUWater,PersonB,Refund for overpayment,,250
 3,2023-02-01,PersonC,UUWater,Monthly subscription fee,235752,1000

@@ -7,11 +7,11 @@
             "pay": "http://reference.data.gov.uk/def/payment#"
         }
     ],
-    "url": "transactions.csv",
+    "url": "https://csvw-demo.learndata.info/data/example5/transactions.csv",
     "dc:title": "Financial Transactions",
     "dc:description": "A log of financial transactions related to a fictitious water company.",
     "dc:publisher": {
-        "schema:name": "UU WAter.",
+        "schema:name": "UU WAter",
         "schema:url": {
             "@id": "http://UUWater.example.com"
         }
