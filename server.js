@@ -102,6 +102,21 @@ function getMetadataFromGraph(jsonLdGraph) {
   return metadata;
 }
 
+function extractAfterLastSlashOrHash(inputString) {
+  if (!inputString || typeof inputString !== 'string') {
+    return inputString;
+  }
+  const lastIndexSlash = inputString.lastIndexOf('/');
+  const lastIndexHash = inputString.lastIndexOf('#');
+  const lastIndex = Math.max(lastIndexSlash, lastIndexHash);
+
+  if (lastIndex === -1) {
+    // Neither "/" nor "#" found, return the input string as is
+    return inputString;
+  }
+
+  return inputString.substring(lastIndex + 1);
+}
 
 function sendData(data,req,res) {
   const jsonData = req.session.selectedData;
@@ -129,6 +144,7 @@ function sendData(data,req,res) {
       return res.json(jsonLDResponse);
     case 'text/html':
       data = updateIdsWithBase(data,process.env.BASE);
+      console.log(data.map(t => getLabelledDataWithURIs(t, language,jsonData)));
       res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language,jsonData)), metadata, objectToString, sourcedir: req.session.sourceDir, base: process.env.BASE, renderCsvToTable});
       break;
     case 'text/csv':
@@ -145,7 +161,12 @@ function sendData(data,req,res) {
           const dataObject = {};
           for (const [key, value] of Object.entries(item)) {
             if (typeof value === 'object' && value !== null) {
-              dataObject[key] = value['@id'] || value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value['schema:identifier'];
+              let outputValue = value['@id'] || value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value['schema:identifier'];
+              if (req.query.simple) {
+                outputValue = value['@value'] || value['schema:value'] || value['http://schema.org/value'] || value['schema:identifier'];
+                outputValue = extractAfterLastSlashOrHash(outputValue);
+              }
+              dataObject[key] = outputValue;
               /*
               tempObject = getLabelledData(value,language,jsonData);
               for (const tempKey in tempObject) {
@@ -155,14 +176,24 @@ function sendData(data,req,res) {
               }
               */
             } else {
-              dataObject[key] = value;
+              let outputValue = value;
+              if (req.query.simple) {
+                outputValue = extractAfterLastSlashOrHash(value);
+              }
+              dataObject[key] = outputValue;
             }
           }
           return dataObject;
         });
 
         const csvHeaders = Object.keys(csvData[0]).map(key => ({ key, label: key }));
-
+        for (const row of csvData) {
+          for (const header of csvHeaders) {
+            if (!row.hasOwnProperty(header)) {
+              row[header] = ''; // Set an empty string for missing headers
+            }
+          }
+        }
         const output = stringify(csvData, {
           header: true,
           columns: csvHeaders,
@@ -259,6 +290,7 @@ function getLabelledDataWithURIs(data, language,jsonData) {
   };
 
   const labeledData = {};
+  const graph = jsonData['@graph'];
   for (const key in data) {
     let skip = false;
     let label = key;
@@ -266,12 +298,12 @@ function getLabelledDataWithURIs(data, language,jsonData) {
     let uri = null;
     let labellink = null;
     let valuelink = null;
-
-    if (jsonData[key] && jsonData[key]['rdfs:label']) {
-      const labels = jsonData[key]['rdfs:label'];
+    let obj = findObjectByKey(graph,key);
+    if (obj && obj['rdfs:label']) {
+      const labels = obj['rdfs:label'];
       const labelObject = labels.find(label => label['@language'] === language) || labels.find(label => label['@language'] === 'en');
       label = labelObject ? labelObject['@value'] : key;
-      uri = jsonData[key]['@id'] ? jsonData[key]['@id'] : null;
+      uri = obj['@id'] ? obj['@id'] : null;
       labellink = expandURI(uri,context);
     } else {
       label = key.split(":")[1] ? key.split(":")[1] : key;
@@ -284,16 +316,10 @@ function getLabelledDataWithURIs(data, language,jsonData) {
         value = data[key]['@value'];
       } else if ('@id' in data[key]) {
         uri = data[key]['@id'];
-        if (Object.keys(getLabelledData(data[key],language,jsonData)).length > 1) {
-          //nested
+        if (Object.keys(getLabelledDataWithURIs(data[key],language,jsonData)).length > 1) {
           search = data[key];
           value = search['schema:value'] || search['http://schema.org/value'] || search['schema:identifier'] || search['@id'];
-          //simple
-          //value = uri;
-        } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
-          const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
-          value = labelObject ? labelObject['@value'] : uri;
-          labellink = expandURI(uri,context);
+          valuelink = search['@id'] || null;
         } else {
           value = uri; // Fallback to URI if label not found
         }
@@ -317,21 +343,32 @@ function getLabelledDataWithURIs(data, language,jsonData) {
   return labeledData;
 }
 
+function findObjectByKey(graph, keyToFind) {
+  for (const obj of graph) {
+    if (obj[keyToFind] && obj[keyToFind]['@id'] === keyToFind) {
+      return obj[keyToFind];
+    }
+  }
+  return null; // Return null if the '@id' matching the key is not found in any object
+}
+
 function getLabelledData(data, language,jsonData) {
   // Map the data to labels and values
   const context = jsonData['@context'];
+  const graph = jsonData['@graph'];
   const labeledData = {};
   for (const key in data) {
     let label = key;
     let value = data[key];
     let uri = null;
     let link = null;
+    let obj = findObjectByKey(graph,key);
 
-    if (jsonData[key] && jsonData[key]['rdfs:label']) {
-      const labels = jsonData[key]['rdfs:label'];
+    if (obj && obj['rdfs:label']) {
+      const labels = obj['rdfs:label'];
       const labelObject = labels.find(label => label['@language'] === language) || labels.find(label => label['@language'] === 'en');
       label = labelObject ? labelObject['@value'] : key;
-      uri = jsonData[key]['@id'] ? jsonData[key]['@id'] : null;
+      uri = obj['@id'] ? obj['@id'] : null;
       link = expandURI(uri,context);
     }
 
@@ -347,10 +384,11 @@ function getLabelledData(data, language,jsonData) {
             value = data[key];
             //simple
             //value = uri;
-        } else if (jsonData[uri] && jsonData[uri]['rdfs:label']) {
-          const labelObject = jsonData[uri]['rdfs:label'].find(label => label['@language'] === language) || jsonData[uri]['rdfs:label'].find(label => label['@language'] === 'en');
-          value = labelObject ? labelObject['@value'] : uri;
-          link = expandURI(uri,context);
+        //} else if (obj && obj['rdfs:label']) {
+        //  console.log('in here');
+        //  const labelObject = obj['rdfs:label'].find(label => label['@language'] === language) || obj['rdfs:label'].find(label => label['@language'] === 'en');
+        //  value = labelObject ? labelObject['@value'] : uri;
+        //  link = expandURI(uri,context);
         } else {
           value = uri; // Fallback to URI if label not found
         }

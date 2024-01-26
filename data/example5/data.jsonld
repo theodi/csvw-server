@@ -32,7 +32,7 @@
         "schema:totalPaymentDue": {
           "@id": "invoice/126532/#totalPaymentDue",
           "rdf:type": "schema:MonetaryAmount",
-          "schema:value": "undefined",
+          "schema:value": "10000",
           "schema:currency": "GBP"
         }
       },
@@ -93,7 +93,7 @@
         "schema:totalPaymentDue": {
           "@id": "invoice/235752/#totalPaymentDue",
           "rdf:type": "schema:MonetaryAmount",
-          "schema:value": "undefined",
+          "schema:value": "1000",
           "schema:currency": "GBP"
         }
       },

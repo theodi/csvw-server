@@ -145,7 +145,7 @@
                 "virtual": true,
                 "aboutUrl": "invoice/{invoice_id}/#totalPaymentDue",
                 "propertyUrl": "schema:value",
-                "valueUrl": "{amount}"
+                "valueUrl": "{invoice_amount}"
             },
             {
                 "virtual": true,

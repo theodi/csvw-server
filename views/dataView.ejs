@@ -46,13 +46,15 @@
           <table id="dataTable" class="display">
             <thead>
               <tr>
-                <% for (const [label, data] of Object.entries(inputData[0])) { %>
+                <% const columns = Object.keys(inputData[0]); %>
+                <% for (const label of columns) { %>
                   <th>
-                  <% if (data.labellink) { %>
-                    <a href="<%= data.labellink %>" target="_blank"><%= label %></a>
-                  <% } else { %>
-                    <%= label %><br>
-                  <% } %>
+                    <% const data = inputData[0][label]; %>
+                    <% if (data && data.labellink) { %>
+                      <a href="<%= data.labellink %>" target="_blank"><%= label %></a>
+                    <% } else { %>
+                      <%= label %><br>
+                    <% } %>
                   </th>
                 <% } %>
               </tr>
@@ -60,19 +62,25 @@
             <tbody>
               <% inputData.forEach(item => { %>
                 <tr>
-                  <% for (const data of Object.values(item)) { %>
+                  <% columns.forEach(label => { %>
                     <td>
-                      <% if (data.valuelink) { %>
-                        <a href="<%= data.valuelink %>" target="_blank"><%= data.value %></a>
+                      <% const data = item[label]; %>
+                      <% if (data) { %>
+                        <% if (data.valuelink) { %>
+                          <a href="<%= data.valuelink %>" target="_blank"><%= data.value %></a>
+                        <% } else { %>
+                          <%= data.value %>
+                        <% } %>
                       <% } else { %>
-                        <%= data.value %>
+                        <!-- Handle undefined data here by inserting an empty cell -->
                       <% } %>
                     </td>
-                  <% } %>
+                  <% }) %>
                 </tr>
               <% }) %>
             </tbody>
           </table>
+
         </div>
       <% } else { %>
         <!-- Rendering a single transaction -->

@@ -67,6 +67,77 @@
         "schema:value": "1000",
         "schema:currency": "USD"
       }
+    },
+    {
+      "schema:identifier": {
+        "@id": "schema:identifier",
+        "rdfs:label": [
+          {
+            "@value": "ID de Transaction",
+            "@language": "fr"
+          },
+          {
+            "@value": "Transaction ID",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "schema:date": {
+        "@id": "schema:date",
+        "rdfs:label": [
+          {
+            "@value": "Date",
+            "@language": "fr"
+          },
+          {
+            "@value": "Date",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "pay:payer": {
+        "@id": "pay:payer",
+        "rdfs:label": [
+          {
+            "@value": "Payeur",
+            "@language": "fr"
+          },
+          {
+            "@value": "Payer",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "pay:payee": {
+        "@id": "pay:payee",
+        "rdfs:label": [
+          {
+            "@value": "Bénéficiaire",
+            "@language": "fr"
+          },
+          {
+            "@value": "Payee",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "schema:description": {
+        "@id": "schema:description",
+        "rdfs:label": [
+          {
+            "@value": "Description",
+            "@language": "en"
+          }
+        ]
+      }
     }
   ],
   "dc:title": "Financial Transactions",
@@ -87,66 +158,5 @@
   "dc:modified": {
     "@value": "2023-10-25",
     "@type": "xsd:date"
-  },
-  "schema:identifier": {
-    "@id": "schema:identifier",
-    "rdfs:label": [
-      {
-        "@value": "ID de Transaction",
-        "@language": "fr"
-      },
-      {
-        "@value": "Transaction ID",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:date": {
-    "@id": "schema:date",
-    "rdfs:label": [
-      {
-        "@value": "Date",
-        "@language": "fr"
-      },
-      {
-        "@value": "Date",
-        "@language": "en"
-      }
-    ]
-  },
-  "pay:payer": {
-    "@id": "pay:payer",
-    "rdfs:label": [
-      {
-        "@value": "Payeur",
-        "@language": "fr"
-      },
-      {
-        "@value": "Payer",
-        "@language": "en"
-      }
-    ]
-  },
-  "pay:payee": {
-    "@id": "pay:payee",
-    "rdfs:label": [
-      {
-        "@value": "Bénéficiaire",
-        "@language": "fr"
-      },
-      {
-        "@value": "Payee",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:description": {
-    "@id": "schema:description",
-    "rdfs:label": [
-      {
-        "@value": "Description",
-        "@language": "en"
-      }
-    ]
   }
 }
