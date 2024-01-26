@@ -144,7 +144,6 @@ function sendData(data,req,res) {
       return res.json(jsonLDResponse);
     case 'text/html':
       data = updateIdsWithBase(data,process.env.BASE);
-      console.log(data.map(t => getLabelledDataWithURIs(t, language,jsonData)));
       res.render('dataView', { inputData: data.map(t => getLabelledDataWithURIs(t, language,jsonData)), metadata, objectToString, sourcedir: req.session.sourceDir, base: process.env.BASE, renderCsvToTable});
       break;
     case 'text/csv':
