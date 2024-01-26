@@ -83,6 +83,16 @@
                 "required": true
             },
             {
+                "name": "amount",
+                "titles": {
+                    "fr": "Montant (GBP)",
+                    "en": "Amount (GBP)"
+                },
+                "datatype": "decimal",
+                "required": true,
+                "suppressOutput": true
+            },
+            {
                 "name": "invoice_id",
                 "titles": {
                     "fr": "Identifiant de facture",
@@ -93,12 +103,12 @@
                 "suppressOutput": true
             },
             {
-                "name": "amount",
+                "name": "invoice_amount",
                 "titles": {
-                    "fr": "Montant (GBP)",
-                    "en": "Amount (GBP)"
+                    "fr": "Paiement total dû",
+                    "en": "Total payment due"
                 },
-                "datatype": "decimal",
+                "datatype": "integer",
                 "required": true,
                 "suppressOutput": true
             },
@@ -136,6 +146,12 @@
                 "aboutUrl": "invoice/{invoice_id}/#totalPaymentDue",
                 "propertyUrl": "schema:value",
                 "valueUrl": "{amount}"
+            },
+            {
+                "virtual": true,
+                "aboutUrl": "invoice/{invoice_id}/#totalPaymentDue",
+                "propertyUrl": "schema:currency",
+                "valueUrl": "GBP"
             },
             {
                 "virtual": true,

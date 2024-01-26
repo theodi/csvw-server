@@ -29,7 +29,12 @@
         "@id": "invoice/126532",
         "rdf:type": "schema:Invoice",
         "schema:identifier": "126532",
-        "schema:totalPaymentDue": "invoice/126532/#totalPaymentDue"
+        "schema:totalPaymentDue": {
+          "@id": "invoice/126532/#totalPaymentDue",
+          "rdf:type": "schema:MonetaryAmount",
+          "schema:value": "undefined",
+          "schema:currency": "GBP"
+        }
       },
       "schema:amount": {
         "@id": "transactions/1#amount",
@@ -56,12 +61,6 @@
       },
       "schema:description": "Refund for overpayment",
       "@id": "transactions/2",
-      "schema:referencesOrder": {
-        "@id": "invoice/",
-        "rdf:type": "schema:Invoice",
-        "schema:identifier": "",
-        "schema:totalPaymentDue": "invoice//#totalPaymentDue"
-      },
       "schema:amount": {
         "@id": "transactions/2#amount",
         "rdf:type": "schema:MonetaryAmount",
@@ -91,7 +90,12 @@
         "@id": "invoice/235752",
         "rdf:type": "schema:Invoice",
         "schema:identifier": "235752",
-        "schema:totalPaymentDue": "invoice/235752/#totalPaymentDue"
+        "schema:totalPaymentDue": {
+          "@id": "invoice/235752/#totalPaymentDue",
+          "rdf:type": "schema:MonetaryAmount",
+          "schema:value": "undefined",
+          "schema:currency": "GBP"
+        }
       },
       "schema:amount": {
         "@id": "transactions/3#amount",
@@ -100,6 +104,77 @@
         "schema:currency": "GBP"
       },
       "rdf:type": "pay:Payment"
+    },
+    {
+      "schema:identifier": {
+        "@id": "schema:identifier",
+        "rdfs:label": [
+          {
+            "@value": "ID de Transaction",
+            "@language": "fr"
+          },
+          {
+            "@value": "Transaction ID",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "schema:date": {
+        "@id": "schema:date",
+        "rdfs:label": [
+          {
+            "@value": "Date",
+            "@language": "fr"
+          },
+          {
+            "@value": "Date",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "pay:payer": {
+        "@id": "pay:payer",
+        "rdfs:label": [
+          {
+            "@value": "Payeur",
+            "@language": "fr"
+          },
+          {
+            "@value": "Payer",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "pay:payee": {
+        "@id": "pay:payee",
+        "rdfs:label": [
+          {
+            "@value": "Bénéficiaire",
+            "@language": "fr"
+          },
+          {
+            "@value": "Payee",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "schema:description": {
+        "@id": "schema:description",
+        "rdfs:label": [
+          {
+            "@value": "Description",
+            "@language": "en"
+          }
+        ]
+      }
     }
   ],
   "dc:title": "Financial Transactions",
@@ -120,66 +195,5 @@
   "dc:modified": {
     "@value": "2024-01-15",
     "@type": "xsd:date"
-  },
-  "schema:identifier": {
-    "@id": "schema:identifier",
-    "rdfs:label": [
-      {
-        "@value": "ID de Transaction",
-        "@language": "fr"
-      },
-      {
-        "@value": "Transaction ID",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:date": {
-    "@id": "schema:date",
-    "rdfs:label": [
-      {
-        "@value": "Date",
-        "@language": "fr"
-      },
-      {
-        "@value": "Date",
-        "@language": "en"
-      }
-    ]
-  },
-  "pay:payer": {
-    "@id": "pay:payer",
-    "rdfs:label": [
-      {
-        "@value": "Payeur",
-        "@language": "fr"
-      },
-      {
-        "@value": "Payer",
-        "@language": "en"
-      }
-    ]
-  },
-  "pay:payee": {
-    "@id": "pay:payee",
-    "rdfs:label": [
-      {
-        "@value": "Bénéficiaire",
-        "@language": "fr"
-      },
-      {
-        "@value": "Payee",
-        "@language": "en"
-      }
-    ]
-  },
-  "schema:description": {
-    "@id": "schema:description",
-    "rdfs:label": [
-      {
-        "@value": "Description",
-        "@language": "en"
-      }
-    ]
   }
 }
