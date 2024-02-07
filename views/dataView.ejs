@@ -110,6 +110,7 @@
         <%= sourcedir === 'data/example2/' ? 'Example 2' : '' %>
         <%= sourcedir === 'data/example3/' ? 'Example 3' : '' %>
         <%= sourcedir === 'data/example4/' ? 'Example 4' : '' %>
+        <%= sourcedir === 'data/example5/' ? 'Example 5' : '' %>
       </strong></p>
       <p>Select an example to load:</p>
       <form action="#" method="get" id="exampleForm">
@@ -118,6 +119,7 @@
           <option value="example2" <%= sourcedir === 'data/example2/' ? 'selected' : '' %>>Example 2</option>
           <option value="example3" <%= sourcedir === 'data/example3/' ? 'selected' : '' %>>Example 3</option>
           <option value="example4" <%= sourcedir === 'data/example4/' ? 'selected' : '' %>>Example 4</option>
+          <option value="example5" <%= sourcedir === 'data/example5/' ? 'selected' : '' %>>Example 5</option>
           <!-- Add more options for other examples as needed -->
         </select>
         <br/>
