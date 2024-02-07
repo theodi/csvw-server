@@ -3,34 +3,23 @@
 <p>While retaining the core structure of <code>example3</code>, <code>example4</code> introduces key refinements and additions in its metadata configuration, enhancing semantic richness and alignment with specific vocabularies.</p>
 <h2 id="key-differences-from-example-3">Key Differences from Example 3</h2>
 <ol>
-<li><p><strong>Table Schema Refinements</strong>:</p>
-<ul>
-<li><strong>Property URLs</strong>:<ul>
-<li><code>example4</code> uses the <code>pay</code> namespace for <code>payer</code> and <code>payee</code> columns, resulting in <code>propertyUrl</code> values of <code>pay:payer</code> and <code>pay:payee</code>, aligning these columns with a specific payment vocabulary.</li>
-<li>The <code>valueUrl</code> for <code>payer</code> and <code>payee</code> is updated to <code>company/{payer}</code> and <code>company/{payee}</code>, implying a more concise and meaningful reference.</li>
-</ul>
-</li>
-<li><strong>Virtual Column for Payment Type</strong>:<ul>
-<li>A new virtual column is introduced: <code>&quot;propertyUrl&quot;: &quot;rdf:type&quot;, &quot;valueUrl&quot;: &quot;pay:Payment&quot;</code>, which categorizes each transaction explicitly as a <code>Payment</code> type within the <code>pay</code> namespace.</li>
-</ul>
-</li>
-<li><strong>Suppress Output for Amount</strong>:<ul>
-<li>Similar to <code>example3</code>, <code>amount</code> is marked with <code>&quot;suppressOutput&quot;: true</code>, indicating that this column&#39;s data should not be directly included in the output.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Semantic Enhancements</strong>:</p>
-<ul>
-<li>The use of the <code>pay</code> namespace for relevant columns and virtual columns enables a closer alignment with standardized payment vocabularies and terms, providing clearer semantics for the data.</li>
-</ul>
-</li>
-<li><p><strong>Virtual Columns Configuration</strong>:</p>
-<ul>
-<li><code>example4</code> maintains the complex virtual column structure seen in <code>example3</code> for defining <code>MonetaryAmount</code>, enhancing the dataset&#39;s semantic representation with specific types and values.</li>
-</ul>
-</li>
-</ol>
+    <li><p><strong>Virtual Columns for Complex Structures</strong>:</p>
+    <ul>
+    <li>Introduction of multiple virtual columns to construct a <code>MonetaryAmount</code> object:<ul>
+    <li><code>amount</code> is marked with <code>&quot;suppressOutput&quot;: true</code>, indicating that this column&#39;s data should not be directly included in the output.</li>
+    <li>A new virtual column for <code>schema:amount</code> creates a link to a detailed amount description.</li>
+    <li>Further virtual columns define a <code>MonetaryAmount</code> structure with <code>rdf:type</code>, <code>schema:value</code>, and <code>schema:currency</code> properties.</li>
+    </ul>
+    </li>
+    <li>These virtual columns leverage the <code>aboutUrl</code> and <code>valueUrl</code> attributes to create more complex data structures than in <code>example3</code>.</li>
+    </ul>
+    </li>
+    <li><p><strong>ValueUrls for <code>payee</code> and <code>payer</code></strong>:</p>
+    <ul>
+    <li><code>valueUrl</code> has been added to <code>payee</code> and <code>payer</code> meaning they are now references to objects, not just titles of companies</li>
+    </ul>
+    </li>
+    </ol>
 <h2 id="usage">Usage</h2>
 <ul>
 <li><code>example4</code>&#39;s metadata is particularly suitable for scenarios requiring high semantic fidelity and alignment with specific vocabularies, such as data integration, RDF conversion, or sophisticated data processing pipelines.</li>

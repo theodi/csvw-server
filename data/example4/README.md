@@ -5,20 +5,15 @@ This README outlines the CSVW metadata for `example4`, a dataset representing fi
 
 #### Key Differences from Example 3
 
-1. **Table Schema Refinements**:
-   - **Property URLs**:
-     - `example4` uses the `pay` namespace for `payer` and `payee` columns, resulting in `propertyUrl` values of `pay:payer` and `pay:payee`, aligning these columns with a specific payment vocabulary.
-     - The `valueUrl` for `payer` and `payee` is updated to `company/{payer}` and `company/{payee}`, implying a more concise and meaningful reference.
-   - **Virtual Column for Payment Type**:
-     - A new virtual column is introduced: `"propertyUrl": "rdf:type", "valueUrl": "pay:Payment"`, which categorizes each transaction explicitly as a `Payment` type within the `pay` namespace.
-   - **Suppress Output for Amount**:
-     - Similar to `example3`, `amount` is marked with `"suppressOutput": true`, indicating that this column's data should not be directly included in the output.
+1. **Virtual Columns for Complex Structures**:
+   - Introduction of multiple virtual columns to construct a `MonetaryAmount` object:
+     - `amount` is marked with `"suppressOutput": true`, indicating that this column's data should not be directly included in the output.
+     - A new virtual column for `schema:amount` creates a link to a detailed amount description.
+     - Further virtual columns define a `MonetaryAmount` structure with `rdf:type`, `schema:value`, and `schema:currency` properties.
+   - These virtual columns leverage the `aboutUrl` and `valueUrl` attributes to create more complex data structures than in `example3`.
 
-2. **Semantic Enhancements**:
-   - The use of the `pay` namespace for relevant columns and virtual columns enables a closer alignment with standardized payment vocabularies and terms, providing clearer semantics for the data.
-
-3. **Virtual Columns Configuration**:
-   - `example4` maintains the complex virtual column structure seen in `example3` for defining `MonetaryAmount`, enhancing the dataset's semantic representation with specific types and values.
+2. **ValueUrls for `payee` and `payer`**:
+  - `valueUrl` has been added to `payee` and `payer` meaning they are now references to objects, not just titles of companies
 
 #### Usage
 - `example4`'s metadata is particularly suitable for scenarios requiring high semantic fidelity and alignment with specific vocabularies, such as data integration, RDF conversion, or sophisticated data processing pipelines.

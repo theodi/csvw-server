@@ -14,16 +14,6 @@ This README discusses the CSVW metadata for `example3`, which represents a datas
      - `schema:identifier` for `transaction_id`.
      - `schema:date` for `date`.
      - Custom URIs like `payer` and `payee` for respective columns.
-   - **Suppress Output**: The `amount` column has a new attribute `"suppressOutput": true`, which indicates that this column's data should not be directly included in the output.
-
-3. **Virtual Columns for Complex Structures**:
-   - Introduction of multiple virtual columns to construct a `MonetaryAmount` object:
-     - A virtual column for `schema:amount` creates a link to a detailed amount description.
-     - Further virtual columns define a `MonetaryAmount` structure with `rdf:type`, `schema:value`, and `schema:currency` properties.
-   - These virtual columns leverage the `aboutUrl` and `valueUrl` attributes to create more complex data structures than in `example2`.
-
-4. **Refined Semantic Descriptions**:
-   - The use of `propertyUrl` and virtual columns allows for a richer semantic representation of the data, adhering more closely to standards like Schema.org and RDF.
 
 #### Usage
 - The metadata in `example3` is designed to provide a more semantically rich and detailed description of the CSV data. It is particularly useful for scenarios requiring advanced data integration or RDF conversion.
