@@ -87,31 +87,7 @@
                     "en": "Amount (USD)"
                 },
                 "datatype": "decimal",
-                "required": true,
-                "suppressOutput": true
-            },
-            {
-                "virtual": true,
-                "propertyUrl": "schema:amount",
-                "valueUrl": "transactions/{transaction_id}#amount"
-            },
-            {
-                "virtual": true,
-                "aboutUrl": "transactions/{transaction_id}#amount",
-                "propertyUrl": "rdf:type",
-                "valueUrl": "schema:MonetaryAmount"
-            },
-            {
-                "virtual": true,
-                "aboutUrl": "transactions/{transaction_id}#amount",
-                "propertyUrl": "schema:value",
-                "valueUrl": "{amount}"
-            },
-            {
-                "virtual": true,
-                "aboutUrl": "transactions/{transaction_id}#amount",
-                "propertyUrl": "schema:currency",
-                "valueUrl": "USD"
+                "required": true
             }
         ],
         "primaryKey": "transaction_id",

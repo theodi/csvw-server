@@ -20,13 +20,11 @@
       "pay:payer": "CompanyA",
       "pay:payee": "CompanyB",
       "schema:description": "Payment for services",
-      "@id": "transactions/1",
-      "schema:amount": {
-        "@id": "transactions/1#amount",
-        "rdf:type": "schema:MonetaryAmount",
-        "schema:value": "5000",
-        "schema:currency": "USD"
-      }
+      "amount": {
+        "@value": 5000,
+        "@type": "xsd:decimal"
+      },
+      "@id": "transactions/1"
     },
     {
       "schema:identifier": {
@@ -40,13 +38,11 @@
       "pay:payer": "CompanyB",
       "pay:payee": "CompanyA",
       "schema:description": "Refund for overpayment",
-      "@id": "transactions/2",
-      "schema:amount": {
-        "@id": "transactions/2#amount",
-        "rdf:type": "schema:MonetaryAmount",
-        "schema:value": "250",
-        "schema:currency": "USD"
-      }
+      "amount": {
+        "@value": 250,
+        "@type": "xsd:decimal"
+      },
+      "@id": "transactions/2"
     },
     {
       "schema:identifier": {
@@ -60,13 +56,11 @@
       "pay:payer": "CompanyA",
       "pay:payee": "CompanyB",
       "schema:description": "Monthly subscription fee",
-      "@id": "transactions/3",
-      "schema:amount": {
-        "@id": "transactions/3#amount",
-        "rdf:type": "schema:MonetaryAmount",
-        "schema:value": "1000",
-        "schema:currency": "USD"
-      }
+      "amount": {
+        "@value": 1000,
+        "@type": "xsd:decimal"
+      },
+      "@id": "transactions/3"
     },
     {
       "schema:identifier": {
