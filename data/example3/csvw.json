@@ -87,6 +87,7 @@
                     "en": "Amount (USD)"
                 },
                 "datatype": "decimal",
+                "propertyUrl": "schema:amount",
                 "required": true
             }
         ],

@@ -20,7 +20,7 @@
       "pay:payer": "CompanyA",
       "pay:payee": "CompanyB",
       "schema:description": "Payment for services",
-      "amount": {
+      "schema:amount": {
         "@value": 5000,
         "@type": "xsd:decimal"
       },
@@ -38,7 +38,7 @@
       "pay:payer": "CompanyB",
       "pay:payee": "CompanyA",
       "schema:description": "Refund for overpayment",
-      "amount": {
+      "schema:amount": {
         "@value": 250,
         "@type": "xsd:decimal"
       },
@@ -56,7 +56,7 @@
       "pay:payer": "CompanyA",
       "pay:payee": "CompanyB",
       "schema:description": "Monthly subscription fee",
-      "amount": {
+      "schema:amount": {
         "@value": 1000,
         "@type": "xsd:decimal"
       },
@@ -128,6 +128,21 @@
         "rdfs:label": [
           {
             "@value": "Description",
+            "@language": "en"
+          }
+        ]
+      }
+    },
+    {
+      "schema:amount": {
+        "@id": "schema:amount",
+        "rdfs:label": [
+          {
+            "@value": "Montant (USD)",
+            "@language": "fr"
+          },
+          {
+            "@value": "Amount (USD)",
             "@language": "en"
           }
         ]
